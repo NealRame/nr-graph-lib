@@ -16,6 +16,7 @@ namespace nealrame {
 namespace graph {
 class LinearGradient : public Gradient {
 public:
+	LinearGradient();
 	LinearGradient(const Point &start, const Point &end);
 	LinearGradient(const LinearGradient &other);
 	virtual ~LinearGradient();

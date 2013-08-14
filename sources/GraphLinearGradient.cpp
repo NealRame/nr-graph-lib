@@ -16,6 +16,9 @@ namespace com {
 namespace nealrame {
 namespace graph {
 
+LinearGradient::LinearGradient() {
+}
+
 LinearGradient::LinearGradient(const Point &start, const Point &end) :
 	_start_point(start),
 	_end_point(end) {
@@ -36,7 +39,7 @@ LinearGradient & LinearGradient::operator=(const Gradient &gradient) {
 }
 
 std::string LinearGradient::typeToString() const {
-	return "LineraGradient";
+	return "LinearGradient";
 }
 
 } /* namespace graph */
