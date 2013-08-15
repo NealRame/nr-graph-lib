@@ -41,7 +41,8 @@ Brush::Brush(const graph::Gradient &gradient) :
 	setGradient(gradient);
 }
 
-Brush::Brush(const Brush &brush) {
+Brush::Brush(const Brush &brush) :
+	Brush() {
 	*this = brush;
 }
 

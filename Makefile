@@ -11,20 +11,16 @@ export COMMON_FLAGS += -I/usr/include/libpng12
 export CFLAGS        = $(COMMON_FLAGS)
 export CXXFLAGS      = $(COMMON_FLAGS) -std=c++11
 export LDFLAGS       = -lcairo
-export SOURCES      := $(wildcard $(PWD)/sources/*.cpp)
+export SOURCES      := $(wildcard $(CURDIR)/sources/*.cpp)
 export OBJECTS      := $(notdir $(patsubst %.cpp,%.o,$(SOURCES)))
-export VPATH        := $(PWD)/sources
-export DEPS         := $(PWD)/Makefile.depends
+export VPATH        := $(CURDIR)/sources
+export DEPS         := $(CURDIR)/Makefile.depends
 
 .PHONY: all clean Debug depends realclean Release tags
 
 all: Debug Release
 
-Debug:
-	@mkdir -p $@
-	$(MAKE) --no-print-directory -C $@ -f ../$@.mk $(TARGET)
-
-Release:
+Debug Release:
 	@mkdir -p $@
 	$(MAKE) --no-print-directory -C $@ -f ../$@.mk $(TARGET)
 
