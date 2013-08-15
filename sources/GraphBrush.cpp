@@ -9,6 +9,8 @@ extern "C" {
 #	include <cairo.h>
 }
 
+#include <sstream>
+
 #include "GraphError.h"
 #include "GraphLinearGradient.h"
 #include "GraphRadialGradient.h"
@@ -271,6 +273,26 @@ void Brush::importFromCairoPattern(void *ptr) {
 		Error::raise(Error::NotImplemented); // TODO not implement yet
 		break;
 	}
+}
+
+std::string Brush::toString() const {
+	switch (type()) {
+	case Brush::Type::Solid:
+		return color().toString();
+
+	case Brush::Type::Gradient:
+		return gradient().toString();
+
+	case Brush::Type::Surface:
+		return "Surface";
+		
+	case Brush::Type::Null:
+		return "Null";
+	}
+}
+
+std::ostream & operator<<(std::ostream &out, const Brush &brush) {
+	return out << brush.toString();
 }
 
 } /* namespace graph */

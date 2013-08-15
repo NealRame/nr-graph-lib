@@ -35,7 +35,7 @@ tags:
 		| ctags -L - --c++-kinds=+p --fields=+iaS --extra=+q
 
 depends: $(SOURCES)
-	$(CC) $(CFLAGS) $(INCLUDE_DIRECTORIES) -MM $(SOURCES) > $(DEPS)
+	$(CC) $(CXXFLAGS) $(INCLUDE_DIRECTORIES) -MM $(SOURCES) > $(DEPS)
 
 realclean: clean
 	rm -fr log

@@ -8,6 +8,7 @@
 #ifndef GRAPHGRADIENT_H_
 #define GRAPHGRADIENT_H_
 
+#include <iostream>
 #include <string>
 #include <vector>
 
@@ -67,6 +68,8 @@ protected:
 	Extend _extend;
 	std::vector<Stop> _stops;
 };
+
+std::ostream & operator<<(std::ostream &, const Gradient &);
 
 } /* namespace graph */
 } /* namespace nealrame */

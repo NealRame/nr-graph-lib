@@ -8,6 +8,9 @@
 #ifndef BRUSH_H_
 #define BRUSH_H_
 
+#include <iostream>
+#include <string>
+
 #include "GraphColor.h"
 #include "GraphGradient.h"
 
@@ -54,6 +57,9 @@ public:
 	const Gradient & gradient() const;
 	void setGradient(const Gradient &);
 
+public:
+	std::string toString() const;
+
 private:
 	void * exportToCairoPattern() const;
 	void importFromCairoPattern(void *);
@@ -65,6 +71,8 @@ private:
 		Gradient *_gradient;
 	};
 };
+
+std::ostream & operator<<(std::ostream &, const Brush &);
 
 } /* namespace graph */
 } /* namespace nealrame */

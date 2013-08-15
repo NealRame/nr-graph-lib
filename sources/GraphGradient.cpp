@@ -8,6 +8,8 @@
 #include <algorithm>
 #include <sstream>
 
+#include <boost/format.hpp>
+
 #include "GraphError.h"
 #include "GraphGradient.h"
 
@@ -66,21 +68,28 @@ bool Gradient::operator==(const Gradient &other) {
 }
 
 std::string Gradient::typeToString() const {
-	return "NoGradient";
+	return "Gradient";
 }
 
 std::string Gradient::toString() const {
 	std::ostringstream ss;
-	ss << typeToString() << "::";
+	ss << typeToString() << "(";
 	for (int i = 0, count = colorStopCount(); i < count; ++i) {
 		const Stop &stop(_stops.at(i));
-		ss << stop.offset << ',' << stop.color.converTo(Color::Rgb).toString() << ((i < count - 1) ? ':':';');
+		ss << (boost::format("%1% %2%%3%")
+			% stop.color.toString()
+			% stop.offset
+			% ((i < count - 1) ? ", ":")")).str();
 	}
 	return ss.str();
 }
 
 bool operator==(const Gradient::Stop &ls, const Gradient::Stop & rs) {
 	return ls.offset == rs.offset && ls.color == rs.color;
+}
+
+std::ostream & operator<<(std::ostream &out, const Gradient &gradient) {
+	return out << gradient.toString();
 }
 
 } /* namespace graph */

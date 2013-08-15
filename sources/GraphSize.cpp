@@ -8,6 +8,8 @@
 #include <algorithm>
 #include <cmath>
 
+#include <boost/format.hpp>
+
 #include "GraphSize.h"
 
 namespace com {
@@ -24,6 +26,14 @@ Size Size::expandedTo(const Size & otherSize) const {
 
 bool Size::isValid() const {
 	return _width >=0 && _height >= 0;
+}
+
+std::string Size::toString() const {
+	return (boost::format("%1%x%2%") % _width % _height).str();
+}
+
+std::ostream & operator<<(std::ostream &out, const Size &size) {
+	return out << size.toString();
 }
 
 } /* namespace graph */

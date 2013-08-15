@@ -8,6 +8,9 @@
 #ifndef GRAPHSIZE_H_
 #define GRAPHSIZE_H_
 
+#include <iostream>
+#include <string>
+
 namespace com {
 namespace nealrame {
 namespace graph {
@@ -37,10 +40,15 @@ public:
 
 	bool isValid() const;
 
+public:
+	virtual std::string toString() const;
+
 private:
 	double _width;
 	double _height;
 };
+
+std::ostream & operator<<(std::ostream &, const Size &);
 
 } /* namespace graph */
 } /* namespace nealrame */

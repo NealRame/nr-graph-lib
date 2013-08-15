@@ -9,6 +9,7 @@
 #include <sstream>
 
 #include <boost/format.hpp>
+#include <boost/regex.hpp>
 
 #include "GraphColor.h"
 #include "GraphError.h"
@@ -482,51 +483,92 @@ Color Color::darker(double factor) const {
 
 std::string Color::toHTMLString() const {
 	if (_model == Rgb) {
-		return (boost::format("#%1%%2%%3%")
-			% toHtmlRGBComponentString(_rgb.red)
-			% toHtmlRGBComponentString(_rgb.green)
-			% toHtmlRGBComponentString(_rgb.blue)).str();
+		std::string res = 
+			(boost::format("#%1%%2%%3%")
+				% toHtmlRGBComponentString(_rgb.red)
+				% toHtmlRGBComponentString(_rgb.green)
+				% toHtmlRGBComponentString(_rgb.blue)).str();
+
+		// If res match the given regex (i.e. #XXYYZZ) then we can 
+		// simplify it (i.e. #XYZ) 
+		boost::regex re("^.(.)\\1(.)\\2(.)\\3$");
+		boost::smatch m;
+
+		return boost::regex_match(res, m, re) ?
+			(boost::format("#%1%%2%%3%") % m[1].str() % m[2].str() % m[3].str()).str() : res;
 	}
 	return converTo(Rgb).toHTMLString();
 }
 
 std::string Color::toString() const {
-	boost::format fmt("%1%(%2%,%3%)");
-	switch (_model) {
-	case Cmyk:
-		fmt = fmt % "cmyka" % (boost::format("%1%,%2%,%3%,%4%")
-								% _cmyk.cyan
-								% _cmyk.magenta
-								% _cmyk.yellow
-								% _cmyk.black).str();
-		break;
+	if (_alpha == 1) {
+		switch (_model) {
+		case Cmyk:
+			return (boost::format("cmyk(%1%,%2%,%3%,%4%)")
+					% _cmyk.cyan
+					% _cmyk.magenta
+					% _cmyk.yellow
+					% _cmyk.black).str();
+		case Hsl:
+			return (boost::format("hsl(%1%,%2%,%3%)")
+					% _hsl.hue
+					% _hsl.saturation
+					% _hsl.lightness).str();
 
-	case Hsl:
-		fmt = fmt % "hsla" % (boost::format("%1%,%2%,%3%")
-								% _hsl.hue
-								% _hsl.saturation
-								% _hsl.lightness).str();
-		break;
+		case Hsv:
+			return (boost::format("hsv(%1%,%2%,%3%)")
+					% _hsv.hue
+					% _hsv.saturation
+					% _hsv.value).str();
 
-	case Hsv:
-		fmt = fmt % "hsva" % (boost::format("%1%,%2%,%3%")
-								% _hsv.hue
-								% _hsv.saturation
-								% _hsv.value).str();
-		break;
+		case Rgb:
+			return toHTMLString();
 
-	case Rgb:
-		fmt = fmt % "rgba" % (boost::format("%1%,%2%,%3%")
-								% _rgb.red
-								% _rgb.green
-								% _rgb.blue).str();
-		break;
+		default:
+			return "invalid color";
+		}	
+	} else {
+		boost::format fmt("%1%(%2%,%3%)");
+		switch (_model) {
+		case Cmyk:
+			fmt = fmt % "cmyka" % (boost::format("%1%,%2%,%3%,%4%")
+						% _cmyk.cyan
+						% _cmyk.magenta
+						% _cmyk.yellow
+						% _cmyk.black).str();
+			break;
 
-	default:
-		return "invalid color";
+		case Hsl:
+			fmt = fmt % "hsla" % (boost::format("%1%,%2%,%3%")
+						% _hsl.hue
+						% _hsl.saturation
+						% _hsl.lightness).str();
+			break;
+
+		case Hsv:
+			fmt = fmt % "hsva" % (boost::format("%1%,%2%,%3%")
+						% _hsv.hue
+						% _hsv.saturation
+						% _hsv.value).str();
+			break;
+
+		case Rgb:
+			fmt = fmt % "rgba" % (boost::format("%1%,%2%,%3%")
+						% _rgb.red
+						% _rgb.green
+						% _rgb.blue).str();
+			break;
+
+		default:
+			return "invalid color";
+		}
+
+		return (fmt % _alpha).str();		
 	}
+}
 
-	return (fmt % _alpha).str();
+std::ostream & operator<<(std::ostream &out, const Color &color)  {
+	return out << color.toString();
 }
 
 } /* namespace graph */

@@ -8,6 +8,7 @@
 #ifndef COLOR_H_
 #define COLOR_H_
 
+#include <iostream>
 #include <string>
 
 namespace com {
@@ -119,6 +120,8 @@ private:
 	};
 	double _alpha;
 };
+
+std::ostream & operator<<(std::ostream &, const Color &);
 
 } /* namespace graph */
 } /* namespace nealrame */
