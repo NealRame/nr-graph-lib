@@ -1,0 +1,26 @@
+{
+	"folders":
+	[
+		{
+			"path": "@CMAKE_SOURCE_DIR@",
+			"follow_symlinks": true,
+			"file_exclude_patterns": [ "Makefile.depends", "@CMAKE_PROJECT_NAME@.sublime-project" ]
+		}
+	],
+	"settings":
+	{
+		"tab_size": 4,
+		"translate_tabs_to_spaces": true,
+		"sublimeclang_options": [ @SUBLIBME_CLANG_FLAGS@ ],
+		"sublimeclang_additional_language_options": {
+			"c++": [ @CXX_FLAGS@ ]
+		}
+	},
+	"build_systems":
+	[
+		{
+			"name": "@CMAKE_PROJECT_NAME@",
+			"cmd": [ "make", "-C", "@CMAKE_BINARY_DIR@" ]
+		}
+	]
+}
