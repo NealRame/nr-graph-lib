@@ -5,12 +5,16 @@
 #pragma once
 
 #include <iostream>
+#include <memory>
 #include <string>
 
 namespace com {
 namespace nealrame {
 namespace graph {
 class Color {
+    friend class Brush;
+    friend class Painter;
+
 public:
     enum Model {
         Cmyk, Hsl, Hsv, Rgb, Invalid
@@ -104,6 +108,10 @@ public:
 public:
     std::string toHTMLString() const;
     std::string toString() const;
+
+private:
+    Color(const void *);
+    std::shared_ptr<void> pattern_() const;
 
 private:
     Model _model;

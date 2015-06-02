@@ -7,11 +7,17 @@
 #include <NRGraph/Gradient.h>
 #include <NRGraph/Point.h>
 
+#include <memory>
+
 namespace com {
 namespace nealrame {
 namespace graph {
+class Painter;
 class Point;
 class RadialGradient : public Gradient {
+    friend class Brush;
+    friend class Painter;
+
 public:
     RadialGradient(const Point &center, double radius);
     RadialGradient(const Point &starCenter, double startRadius, const Point &endCenter, double endRadius);
@@ -19,7 +25,8 @@ public:
     virtual ~RadialGradient();
 
 public:
-    virtual Type type() const { return Gradient::Type::Radial; }
+    virtual Type type() const override
+    { return Gradient::Type::Radial; }
 
 public:
     Point startCircleCenterPoint() const
@@ -47,6 +54,12 @@ public:
 
 public:
     virtual std::string typeToString() const;
+
+protected:
+    virtual std::shared_ptr<void> pattern_() const override;
+
+private:
+    RadialGradient(const void *);
 
 private:
     Point _start_circle_center;

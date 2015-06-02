@@ -5,6 +5,7 @@
 #pragma once
 
 #include <iostream>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -13,7 +14,11 @@
 namespace com {
 namespace nealrame {
 namespace graph {
+class Brush;
+class Painter;
 class Gradient {
+    friend class Brush;
+    friend class Painter;
 public:
     enum class Type {
         Linear,
@@ -39,8 +44,12 @@ public:
 
 public:
     virtual Type type() const = 0;
-    virtual Extend extend() const         { return _extend; }
-    virtual void setExtend(Extend extend) { _extend = extend; }
+    
+    virtual Extend extend() const
+    { return _extend; }
+    
+    virtual void setExtend(Extend extend)
+    { _extend = extend; }
 
 public:
     virtual void addColorStop(double, const Color &);
@@ -59,6 +68,9 @@ public:
 public:
     virtual std::string typeToString() const;
     virtual std::string toString() const;
+
+protected:
+    virtual std::shared_ptr<void> pattern_() const = 0;
 
 protected:
     Extend _extend;

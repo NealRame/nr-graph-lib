@@ -7,7 +7,12 @@
 #include <NRGraph/Color.h>
 #include <NRGraph/Error.h>
 
+extern "C" {
+#   include <cairo.h>
+}
+
 #include <algorithm>
+#include <cassert>
 #include <cmath>
 #include <sstream>
 
@@ -345,7 +350,20 @@ Color::Color(const struct HSV &hsv, double alpha)
     , _alpha(alpha) {
 }
 
+Color::Color(const void *ptr) {
+    auto pattern = reinterpret_cast<cairo_pattern_t *>((void *)ptr);
+    assert(::cairo_pattern_get_type(pattern) == CAIRO_PATTERN_TYPE_SOLID);
+    _model = Rgb;
+    ::cairo_pattern_get_rgba(pattern, &_rgb.red, &_rgb.green, &_rgb.blue, &_alpha);
+}
+
 Color::~Color() {
+}
+
+std::shared_ptr<void> Color::pattern_() const {
+    const auto rgb = this->rgb();
+    auto pattern = ::cairo_pattern_create_rgba(rgb.red, rgb.green, rgb.blue, _alpha);
+    return std::shared_ptr<void>(pattern, ::cairo_pattern_destroy);
 }
 
 bool Color::isValid() const {

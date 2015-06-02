@@ -21,8 +21,6 @@ namespace com {
 namespace nealrame {
 namespace graph {
 
-#define CAIRO_PATTERN(PTR) reinterpret_cast<cairo_pattern_t  *>(PTR)
-
 Brush::Brush()
     : _type(Type::Null) {
 }
@@ -47,10 +45,49 @@ Brush::Brush(const Brush &brush)
     *this = brush;
 }
 
+Brush::Brush(const void *ptr) {
+    auto pattern = reinterpret_cast<cairo_pattern_t *>((void *)ptr);
+
+    switch (::cairo_pattern_get_type(pattern)) {
+    case CAIRO_PATTERN_TYPE_SOLID:
+        setColor(Color(ptr));
+        break;
+
+    case CAIRO_PATTERN_TYPE_LINEAR:
+        setGradient(LinearGradient(ptr));
+        break;
+
+    case CAIRO_PATTERN_TYPE_RADIAL:
+        setGradient(RadialGradient(ptr));
+        break;
+        
+    case CAIRO_PATTERN_TYPE_SURFACE:
+    case CAIRO_PATTERN_TYPE_MESH:
+    case CAIRO_PATTERN_TYPE_RASTER_SOURCE:
+        Error::raise(Error::NotImplemented); // TODO not implement yet
+        break;
+    }
+}
+
 Brush::~Brush() {
     if (type() == Type::Gradient) {
         delete _gradient;
     }
+}
+
+std::shared_ptr<void> Brush::pattern_() const {
+    switch (type()) {
+    case Type::Null:
+        return nullptr;
+    case Type::Solid:
+        return color().pattern_();
+    case Type::Gradient:
+        return gradient().pattern_();
+    default:
+        Error::raise(Error::NotImplemented);
+        break;
+    }
+    return nullptr;
 }
 
 Brush & Brush::operator=(const Color &color) {
@@ -134,145 +171,6 @@ void Brush::setGradient(const graph::Gradient& gradient) {
         break;
     case Gradient::Type::Radial:
         _gradient =  new RadialGradient(reinterpret_cast<const RadialGradient &>(gradient));
-        break;
-    }
-}
-
-void * Brush::exportToCairoPattern() const {
-    cairo_pattern_t *pat = NULL;
-
-    switch (type()) {
-    case Type::Null:
-        pat = NULL;
-        break;
-
-    case Type::Solid:
-        {
-            Color::RGB rgb = _color.rgb();
-            pat = cairo_pattern_create_rgba(rgb.red, rgb.green, rgb.blue, _color.alpha());
-        }
-        break;
-
-    case Type::Gradient:
-        {
-            switch (_gradient->type()) {
-            case Gradient::Type::Linear:
-                {
-                    LinearGradient &linear = *(reinterpret_cast<LinearGradient *>(_gradient));
-                    Point p1 = linear.startPoint(), p2 = linear.endPoint();
-                    pat = cairo_pattern_create_linear(p1.x(), p1.y(), p2.x(), p2.y());
-                }
-                break;
-            case Gradient::Type::Radial:
-                {
-                    RadialGradient &radial  = *(reinterpret_cast<RadialGradient *>(_gradient));
-                    Point c1 = radial.startCircleCenterPoint(), c2 = radial.endCircleCenterPoint();
-                    double r1 = radial.startCircleRadius(), r2 = radial.endCircleRadius();
-                    pat = cairo_pattern_create_radial(c1.x(), c1.y(), r1, c2.x(), c2.y(), r2);
-                }
-                break;
-            }
-
-            switch (_gradient->extend()) {
-            case Gradient::Extend::None:
-                cairo_pattern_set_extend(pat, CAIRO_EXTEND_NONE);
-                break;
-            case Gradient::Extend::Pad:
-                cairo_pattern_set_extend(pat, CAIRO_EXTEND_PAD);
-                break;
-            case Gradient::Extend::Reflect:
-                cairo_pattern_set_extend(pat, CAIRO_EXTEND_REFLECT);
-                break;
-            case Gradient::Extend::Repeat:
-                cairo_pattern_set_extend(pat, CAIRO_EXTEND_REPEAT);
-                break;
-            }
-
-
-            for (const Gradient::Stop &stop : _gradient->colorStops()) {
-                Color::RGB rgb = stop.color.rgb();
-                cairo_pattern_add_color_stop_rgba(pat, stop.offset, rgb.red, rgb.green, rgb.blue, stop.color.alpha());
-            }
-        }
-        break;
-
-    case Type::Surface:
-        Error::raise(Error::NotImplemented); // TODO not implement yet
-        break;
-    }
-
-    return pat;
-}
-
-void Brush::importFromCairoPattern(void *ptr) {
-    cairo_pattern_t *pat = reinterpret_cast<cairo_pattern_t *>(ptr);
-    cairo_pattern_type_t pattern_type = cairo_pattern_get_type(pat);
-
-    if (type() == Type::Gradient) {
-        delete _gradient;
-    }
-
-    switch(pattern_type) {
-    case CAIRO_PATTERN_TYPE_SOLID:
-        {
-            _type = Type::Solid;
-
-            double r, g, b, a;
-            cairo_pattern_get_rgba(pat, &r, &g, &b, &a);
-
-            _color = Color(Color::RGB{r, g, b}, a);
-        }
-        break;
-
-    case CAIRO_PATTERN_TYPE_LINEAR:
-    case CAIRO_PATTERN_TYPE_RADIAL:
-        {
-            _type = Type::Gradient;
-
-            if (pattern_type == CAIRO_PATTERN_TYPE_LINEAR) {
-                Point p1, p2;
-                cairo_pattern_get_linear_points(pat, &(p1.x()), &(p1.y()), &(p2.x()), &(p2.y()));
-                _gradient = new LinearGradient(p1, p2);
-            } else {
-                Point p1, p2;
-                double r1, r2;
-                cairo_pattern_get_radial_circles(pat, &(p1.x()), &(p1.y()), &r1, &(p2.x()), &(p2.y()), &r2);
-                _gradient = new RadialGradient(p1, r1, p2, r2);
-            }
-
-            switch(cairo_pattern_get_extend(pat)) {
-            case CAIRO_EXTEND_NONE:
-                _gradient->setExtend(Gradient::Extend::None);
-                break;
-
-            case CAIRO_EXTEND_PAD:
-                _gradient->setExtend(Gradient::Extend::Pad);
-                break;
-
-            case CAIRO_EXTEND_REFLECT:
-                _gradient->setExtend(Gradient::Extend::Reflect);
-                break;
-
-            case CAIRO_EXTEND_REPEAT:
-                _gradient->setExtend(Gradient::Extend::Repeat);
-                break;
-            }
-
-            int stop_count = 0;
-
-            cairo_pattern_get_color_stop_count(pat, &stop_count);
-            for (int i = 0; i < stop_count; ++i) {
-                double offset, r, g, b, a;
-                cairo_pattern_get_color_stop_rgba(pat, i, &offset, &r, &g, &b, &a);
-                _gradient->addColorStop(Gradient::Stop{offset, Color(Color::RGB{r, g, b}, a)});
-            }
-        }
-        break;
-
-    case CAIRO_PATTERN_TYPE_SURFACE:
-    case CAIRO_PATTERN_TYPE_MESH:
-    case CAIRO_PATTERN_TYPE_RASTER_SOURCE:
-        Error::raise(Error::NotImplemented); // TODO not implement yet
         break;
     }
 }

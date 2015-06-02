@@ -6,6 +6,8 @@
 
 #include <NRGraph/Point.h>
 
+#include <memory>
+
 namespace com {
 namespace nealrame {
 namespace graph {
@@ -28,8 +30,9 @@ public:
     virtual ~Painter();
 
 public:
-    Surface & surface() { return _surface; }
-    const Surface & surface() const { return _surface; }
+    Surface & surface();
+    const Surface & surface() const
+    { return const_cast<Painter *>(this)->surface(); }
 
 public:
     void setAntialiasing(Antialias);
@@ -56,8 +59,8 @@ public:
     void fillRectangle(const Rectangle &);
 
 private:
-    Surface & _surface;
-    void * _priv_data;
+    struct impl;
+    std::unique_ptr<impl> d;
 };
 } // namespace graph
 } // namespace nealrame

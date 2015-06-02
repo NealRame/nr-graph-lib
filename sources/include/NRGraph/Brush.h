@@ -8,6 +8,7 @@
 #include <NRGraph/Gradient.h>
 
 #include <iostream>
+#include <memory>
 #include <string>
 
 namespace com {
@@ -57,8 +58,8 @@ public:
     std::string toString() const;
 
 private:
-    void * exportToCairoPattern() const;
-    void importFromCairoPattern(void *);
+    Brush(const void *);
+    std::shared_ptr<void> pattern_() const;
 
 private:
     Type _type;

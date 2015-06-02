@@ -13,8 +13,11 @@ public:
     virtual ~Pen();
 
 public:
-    double width() const        { return _width;  }
-    void setWidth(double width) { _width = width; }
+    double width() const
+    { return _width;  }
+    
+    void setWidth(double width)
+    { _width = width; }
 
 private:
     double _width;

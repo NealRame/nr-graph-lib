@@ -8,10 +8,16 @@
 #include <NRGraph/Point.h>
 #include <NRGraph/Gradient.h>
 
+#include <memory>
+
 namespace com {
 namespace nealrame {
 namespace graph {
+class Painter;
 class LinearGradient : public Gradient {
+    friend class Brush;
+    friend class Painter;
+
 public:
     LinearGradient();
     LinearGradient(const Point &start, const Point &end);
@@ -19,7 +25,7 @@ public:
     virtual ~LinearGradient();
 
 public:
-    virtual Type type() const
+    virtual Type type() const override
     { return Gradient::Type::Linear; }
 
 public:
@@ -40,6 +46,12 @@ public:
 
 public:
     virtual std::string typeToString() const;
+
+protected:
+    virtual std::shared_ptr<void> pattern_() const override;
+
+private:
+    LinearGradient(const void *);
 
 private:
     Point _start_point;
