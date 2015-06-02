@@ -54,7 +54,7 @@ Gradient::Stop Gradient::colorStop(unsigned int index) const {
     if (index < _stops.size()) {
         return _stops.at(index);
     }
-    throw Error(Error::InvalidColorStopIndex);
+    throw error(error::InvalidColorStopIndex);
 }
 
 Gradient & Gradient::operator=(const Gradient &other) {

@@ -1,38 +1,38 @@
 /*
- * Error.cpp
+ * error.cpp
  *
  *  Created on: Jun 8, 2013
  *      Author: jux
  */
 
-#include <NRGraph/Error.h>
+#include <NRGraph/error.h>
 
 using namespace com::nealrame::graph;
 
-std::string Error::statusToString(Error::Status status) {
+std::string error::statusToString(enum error::status status) {
     switch (status) {
-    case Error::Status::BrushTypeMismatch:
+    case error::status::BrushTypeMismatch:
         return "graph::BrushTypeMismatch";
 
-    case Error::Status::InternalError:
+    case error::status::InternalError:
         return "graph::InternalError";
 
-    case Error::Status::InvalidColorStopIndex:
+    case error::status::InvalidColorStopIndex:
         return "graph::InvalidColorStopIndex";
 
-    case Error::Status::InvalidValue:
+    case error::status::InvalidValue:
         return "graph::InvalidValue";
 
-    case Error::Status::IOError:
+    case error::status::IOError:
         return "graph::IOError";
 
-    case Error::Status::NoMemory:
+    case error::status::NoMemory:
         return "graph::NoMemory";
 
-    case Error::Status::NotImplemented:
+    case error::status::NotImplemented:
         return "graph::NotImplemented";
 
-    case Error::Status::SurfaceTypeMismatch:
+    case error::status::SurfaceTypeMismatch:
         return "graph::SurfaceTypeMismatch";
 
     default:
@@ -40,14 +40,14 @@ std::string Error::statusToString(Error::Status status) {
     }
 }
 
-Error::Error(Status s, std::string msg)
+error::error(enum status s, std::string msg)
     : status(s)
-    , message(msg)
-{ }
+    , message(msg) {
+}
 
-Error::~Error()
-{ }
+error::~error() {
+}
 
-void Error::raise(Status status, std::string msg) {
-    throw Error(status, msg);
+void error::raise(enum status status, std::string msg) {
+    throw error(status, msg);
 }

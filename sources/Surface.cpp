@@ -41,12 +41,12 @@ struct Surface::impl {
                 break;
 
             default:
-                Error::raise(Error::NotImplemented);
+                error::raise(error::NotImplemented);
         }
 
         cairo_status_t status;
         if ((status = cairo_surface_status(cairo_surface.get())) != CAIRO_STATUS_SUCCESS) {
-            Error::raise(Error::InternalError, cairo_status_to_string(status));
+            error::raise(error::InternalError, cairo_status_to_string(status));
         }
     }
 
@@ -65,19 +65,19 @@ struct Surface::impl {
                 break;
 
             case CAIRO_STATUS_WRITE_ERROR:
-                Error::raise(Error::IOError);
+                error::raise(error::IOError);
                 break;
 
             case CAIRO_STATUS_SURFACE_TYPE_MISMATCH:
-                Error::raise(Error::SurfaceTypeMismatch);
+                error::raise(error::SurfaceTypeMismatch);
                 break;
 
             case CAIRO_STATUS_NO_MEMORY:
-                Error::raise(Error::NoMemory);
+                error::raise(error::NoMemory);
                 break;
 
             default:
-                Error::raise(Error::InternalError, cairo_status_to_string(status));
+                error::raise(error::InternalError, cairo_status_to_string(status));
                 break;
         }
     }

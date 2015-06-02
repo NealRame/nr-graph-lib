@@ -9,9 +9,9 @@
 namespace com {
 namespace nealrame {
 namespace graph {
-class Error {
+class error {
 public:
-    enum Status {
+    enum status {
         BrushTypeMismatch,
         InternalError,
         InvalidColorStopIndex,
@@ -23,17 +23,17 @@ public:
     };
 
 public:
-    static std::string statusToString(Error::Status);
+    static std::string statusToString(error::status);
 
 public:
-    static void raise(Status, std::string message = "");
+    static void raise(status, std::string message = "");
 
 public:
-    Error(Status, std::string msg = "");
-    virtual ~Error();
+    error(status, std::string msg = "");
+    virtual ~error();
 
 public:
-    Status status;
+    enum status status;
     std::string message;
 };
 } // namespace graph

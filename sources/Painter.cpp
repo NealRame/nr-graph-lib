@@ -48,7 +48,7 @@ struct Painter::impl {
         );
         cairo_status_t status;
         if ((status = cairo_status(cairo_context.get())) != CAIRO_STATUS_SUCCESS) {
-            Error::raise(Error::InternalError, cairo_status_to_string(status));
+            error::raise(error::InternalError, cairo_status_to_string(status));
         }
     }
 

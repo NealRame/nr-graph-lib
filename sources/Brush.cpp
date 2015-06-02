@@ -74,7 +74,7 @@ brush::brush(const void *ptr) {
     case CAIRO_PATTERN_TYPE_SURFACE:
     case CAIRO_PATTERN_TYPE_MESH:
     case CAIRO_PATTERN_TYPE_RASTER_SOURCE:
-        Error::raise(Error::NotImplemented); // TODO not implement yet
+        error::raise(error::NotImplemented); // TODO not implement yet
         break;
     }
 }
@@ -91,7 +91,7 @@ std::shared_ptr<void> brush::pattern_() const {
     case type::Gradient:
         return gradient().pattern_();
     default:
-        Error::raise(Error::NotImplemented);
+        error::raise(error::NotImplemented);
         break;
     }
     return nullptr;
@@ -129,7 +129,7 @@ brush & brush::operator=(const brush &br) {
         break;
 
     case type::Surface:
-        Error::raise(Error::NotImplemented); // TODO not implement yet
+        error::raise(error::NotImplemented); // TODO not implement yet
         break;
     }
     return *this;
@@ -143,7 +143,7 @@ brush & brush::operator=(brush &&brush) {
 
 color & brush::color() {
     if (type() != type::Solid) {
-        Error::raise(Error::BrushTypeMismatch);
+        error::raise(error::BrushTypeMismatch);
     }
     return *d->color;
 }
@@ -162,7 +162,7 @@ void brush::set_color(const class color &c) {
 
 Gradient & brush::gradient() {
     if (type() != type::Gradient) {
-        Error::raise(Error::BrushTypeMismatch);
+        error::raise(error::BrushTypeMismatch);
     }
     return *d->gradient;
 }

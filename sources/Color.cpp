@@ -96,7 +96,7 @@ SOURCE convert(const SOURCE &source) {
 template<typename SOURCE, typename TARGET>
 TARGET convert(const SOURCE &source) {
     if (! isValid<SOURCE>(source)) {
-        Error::raise(Error::InvalidValue);
+        error::raise(error::InvalidValue);
     }
     return convert<color::RGB, TARGET>(convert<SOURCE, color::RGB>(source));
 }
@@ -104,7 +104,7 @@ TARGET convert(const SOURCE &source) {
 template<>
 color::CMYK convert(const color::RGB &source) {
     if (! isValid(source)) {
-        Error::raise(Error::InvalidValue);
+        error::raise(error::InvalidValue);
     }
     const auto k = 1 - max(source.red, source.green, source.blue);
     return color::CMYK{
@@ -118,7 +118,7 @@ color::CMYK convert(const color::RGB &source) {
 template<>
 color::RGB convert(const color::CMYK &source) {
     if (! isValid(source)) {
-        Error::raise(Error::InvalidValue);
+        error::raise(error::InvalidValue);
     }
     const auto k = 1 - source.black;
     return color::RGB{
@@ -131,7 +131,7 @@ color::RGB convert(const color::CMYK &source) {
 template<>
 color::HSL convert(const color::RGB &source) {
     if (! isValid(source)) {
-        Error::raise(Error::InvalidValue);
+        error::raise(error::InvalidValue);
     }
 
     color::HSL hsl;
@@ -163,7 +163,7 @@ color::HSL convert(const color::RGB &source) {
 template<>
 color::RGB convert(const color::HSL &source) {
     if (! isValid(source)) {
-        Error::raise(Error::InvalidValue);
+        error::raise(error::InvalidValue);
     }
 
     const auto c = source.saturation*(1 - std::fabs(2*source.lightness - 1));
@@ -183,7 +183,7 @@ color::RGB convert(const color::HSL &source) {
 template<>
 color::HSV convert(const color::RGB &source) {
     if (! isValid(source)) {
-        Error::raise(Error::InvalidValue);
+        error::raise(error::InvalidValue);
     }
 
     const auto cmax  = max<double>(source.red, source.green, source.blue);
@@ -217,7 +217,7 @@ color::HSV convert(const color::RGB &source) {
 template<>
 color::RGB convert(const color::HSV &source) {
     if (! isValid(source)) {
-        Error::raise(Error::InvalidValue);
+        error::raise(error::InvalidValue);
     }
 
     const auto c = source.value*source.saturation;
@@ -238,7 +238,7 @@ static std::string toHtmlRGBComponentString(double c) {
     const auto v = c*255;
 
     if (v > 255) {
-        Error::raise(Error::InvalidValue);
+        error::raise(error::InvalidValue);
     }
 
     std::stringstream ss;
@@ -490,7 +490,7 @@ void color::setHsv(const HSL &hsv) {
 
 color color::lighter(double factor) const {
     if (factor < 0) {
-        Error::raise(Error::InvalidValue);
+        error::raise(error::InvalidValue);
     }
     auto c = hsv();
     c.value = std::min<double>(c.value*factor, 1);
@@ -499,7 +499,7 @@ color color::lighter(double factor) const {
 
 color color::darker(double factor) const {
     if (factor < 0) {
-        Error::raise(Error::InvalidValue);
+        error::raise(error::InvalidValue);
     }
     auto c = hsv();
     c.value = std::min<double>(c.value/factor, 1);
