@@ -40,7 +40,9 @@ public:
     Brush & operator=(const Brush &);
 
 public:
-    bool isNull() const { return type() == Type::Null; }
+    bool isNull() const {
+        return type() == Type::Null;
+    }
 
 public:
     Type type() const;
