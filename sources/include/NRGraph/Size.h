@@ -12,12 +12,15 @@ namespace nealrame {
 namespace graph {
 class Size {
 public:
-    Size() : _width(0), _height(0)
-    { }
-    Size(double width, double height) : _width(width), _height(height)
-    { }
-    virtual ~Size()
-    { }
+    Size()
+        : _width(0)
+        , _height(0) {
+    }
+    Size(double width, double height)
+        : _width(width)
+        , _height(height) {
+    }
+    virtual ~Size() { }
 
     /// Returns a size holding the minimum width and height of this size and
     /// the given otherSize.
