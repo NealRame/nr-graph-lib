@@ -14,10 +14,10 @@
 namespace com {
 namespace nealrame {
 namespace graph {
-class Brush;
+class brush;
 class Painter;
 class Gradient {
-    friend class Brush;
+    friend class brush;
     friend class Painter;
 public:
     enum class Type {

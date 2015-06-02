@@ -1,4 +1,4 @@
-/// Brush.h
+/// brush.h
 ///
 /// -  Created on: 12 juin 2013
 /// -     Author: jux
@@ -14,11 +14,11 @@
 namespace com {
 namespace nealrame {
 namespace graph {
-class Brush {
+class brush {
     friend class Painter;
 
 public:
-    enum class Type {
+    enum class type {
         Gradient,
         Solid,
         Surface,
@@ -26,54 +26,54 @@ public:
     };
 
 public:
-    Brush();
-    Brush(const Color &);
-    Brush(const Color::Name);
-    Brush(const Gradient &);
-    Brush(const Brush &);
-    Brush(Brush &&);
-    virtual ~Brush();
+    brush();
+    brush(const Color &);
+    brush(const Color::Name);
+    brush(const Gradient &);
+    brush(const brush &);
+    brush(brush &&);
+    virtual ~brush();
 
 public:
-    Brush & operator=(const Color &);
-    Brush & operator=(const Color::Name &);
-    Brush & operator=(const Gradient &);
-    Brush & operator=(const Brush &);
-    Brush & operator=(Brush &&);
+    brush & operator=(const Color &);
+    brush & operator=(const Color::Name &);
+    brush & operator=(const Gradient &);
+    brush & operator=(const brush &);
+    brush & operator=(brush &&);
 
 public:
-    bool isNull() const {
-        return type() == Type::Null;
+    bool is_null() const {
+        return type() == type::Null;
     }
 
 public:
-    Type type() const {
+    enum type type() const {
         return type_;
     }
 
 public:
     Color & color();
     const Color & color() const;
-    void setColor(const Color &);
+    void set_color(const Color &);
 
     Gradient & gradient();
     const Gradient & gradient() const;
-    void setGradient(const Gradient &);
+    void set_gradient(const Gradient &);
 
 public:
-    std::string toString() const;
+    std::string to_string() const;
 
 private:
-    Brush(const void *);
+    brush(const void *);
     std::shared_ptr<void> pattern_() const;
 
 private:
-    Type type_;
+    enum type type_;
     struct impl;
     std::unique_ptr<impl> d;
 };
 
-std::ostream & operator<<(std::ostream &, const Brush &);
+std::ostream & operator<<(std::ostream &, const brush &);
 
 } // namespace graph
 } // namespace nealrame

@@ -1,11 +1,11 @@
 /*
- * Brush.cpp
+ * brush.cpp
  *
  *  Created on: 12 juin 2013
  *      Author: jux
  */
 
-#include <NRGraph/Brush.h>
+#include <NRGraph/brush.h>
 
 extern "C" {
 #   include <cairo.h>
@@ -21,54 +21,54 @@ namespace com {
 namespace nealrame {
 namespace graph {
 
-struct Brush::impl {
+struct brush::impl {
     std::unique_ptr<Color> color;
     std::unique_ptr<Gradient> gradient;
 };
 
-Brush::Brush()
-    : type_(Type::Null)
+brush::brush()
+    : type_(type::Null)
     , d(new impl) {
 }
 
-Brush::Brush(const Color &color)
-    : Brush() {
-    setColor(color);
+brush::brush(const Color &color)
+    : brush() {
+    set_color(color);
 }
 
-Brush::Brush(const Color::Name name)
-    : Brush() {
-    setColor(name);
+brush::brush(const Color::Name name)
+    : brush() {
+    set_color(name);
 }
 
-Brush::Brush(const graph::Gradient &gradient)
-    : Brush() {
-    setGradient(gradient);
+brush::brush(const graph::Gradient &gradient)
+    : brush() {
+    set_gradient(gradient);
 }
 
-Brush::Brush(const Brush &brush)
-    : Brush() {
-    *this = brush;
+brush::brush(const brush &br)
+    : brush() {
+    *this = br;
 }
 
-Brush::Brush(Brush &&brush) {
+brush::brush(brush &&brush) {
     *this = std::move(brush);
 }
 
-Brush::Brush(const void *ptr) {
+brush::brush(const void *ptr) {
     auto pattern = reinterpret_cast<cairo_pattern_t *>((void *)ptr);
 
     switch (::cairo_pattern_get_type(pattern)) {
     case CAIRO_PATTERN_TYPE_SOLID:
-        setColor(Color(ptr));
+        set_color(Color(ptr));
         break;
 
     case CAIRO_PATTERN_TYPE_LINEAR:
-        setGradient(LinearGradient(ptr));
+        set_gradient(LinearGradient(ptr));
         break;
 
     case CAIRO_PATTERN_TYPE_RADIAL:
-        setGradient(RadialGradient(ptr));
+        set_gradient(RadialGradient(ptr));
         break;
         
     case CAIRO_PATTERN_TYPE_SURFACE:
@@ -79,16 +79,16 @@ Brush::Brush(const void *ptr) {
     }
 }
 
-Brush::~Brush() {
+brush::~brush() {
 }
 
-std::shared_ptr<void> Brush::pattern_() const {
+std::shared_ptr<void> brush::pattern_() const {
     switch (type()) {
-    case Type::Null:
+    case type::Null:
         return nullptr;
-    case Type::Solid:
+    case type::Solid:
         return color().pattern_();
-    case Type::Gradient:
+    case type::Gradient:
         return gradient().pattern_();
     default:
         Error::raise(Error::NotImplemented);
@@ -97,80 +97,82 @@ std::shared_ptr<void> Brush::pattern_() const {
     return nullptr;
 }
 
-Brush & Brush::operator=(const Color &color) {
-    setColor(color);
+brush & brush::operator=(const Color &color) {
+    set_color(color);
     return *this;
 }
 
-Brush & Brush::operator=(const Color::Name &name) {
-    setColor(name);
+brush & brush::operator=(const Color::Name &name) {
+    set_color(name);
     return *this;
 }
 
-Brush & Brush::operator=(const Gradient &gradient) {
-    setGradient(gradient);
+brush & brush::operator=(const Gradient &gradient) {
+    set_gradient(gradient);
     return *this;
 }
 
-Brush & Brush::operator=(const Brush &brush) {
-    switch (brush.type()){
-    case Type::Null:
-        type_ = Type::Null;
+brush & brush::operator=(const brush &br) {
+    switch (br.type()){
+    case type::Null:
+        type_ = type::Null;
+        d->color.reset(nullptr);
+        d->gradient.reset(nullptr);
         break;
 
-    case Type::Solid:
-        setColor(brush.color());
+    case type::Solid:
+        set_color(br.color());
         break;
 
-    case Type::Gradient:
-        setGradient(brush.gradient());
+    case type::Gradient:
+        set_gradient(br.gradient());
         break;
 
-    case Type::Surface:
+    case type::Surface:
         Error::raise(Error::NotImplemented); // TODO not implement yet
         break;
     }
     return *this;
 }
 
-Brush & Brush::operator=(Brush &&brush) {
+brush & brush::operator=(brush &&brush) {
     this->type_ = brush.type_;
     this->d = std::move(brush.d);
     return *this;
 }
 
-Color & Brush::color() {
-    if (type() != Type::Solid) {
+Color & brush::color() {
+    if (type() != type::Solid) {
         Error::raise(Error::BrushTypeMismatch);
     }
     return *d->color;
 }
 
-const Color & Brush::color() const {
-    return const_cast<Brush *>(this)->color();
+const Color & brush::color() const {
+    return const_cast<brush *>(this)->color();
 }
 
-void Brush::setColor(const Color &color) {
-    if (type() == Type::Gradient) {
+void brush::set_color(const Color &color) {
+    if (type() == type::Gradient) {
         d->gradient.reset(nullptr);
     }
-    type_ = Type::Solid;
+    type_ = type::Solid;
     d->color.reset(new Color(color));
 }
 
-Gradient & Brush::gradient() {
-    if (type() != Type::Gradient) {
+Gradient & brush::gradient() {
+    if (type() != type::Gradient) {
         Error::raise(Error::BrushTypeMismatch);
     }
     return *d->gradient;
 }
 
-const Gradient & Brush::gradient() const {
-    return const_cast<Brush *>(this)->gradient();
+const Gradient & brush::gradient() const {
+    return const_cast<brush *>(this)->gradient();
 }
 
-void Brush::setGradient(const graph::Gradient& gradient) {
-    type_ = Type::Gradient;
+void brush::set_gradient(const graph::Gradient& gradient) {
+    type_ = type::Gradient;
     switch (gradient.type()) {
     case Gradient::Type::Linear:
         d->gradient.reset(new LinearGradient(reinterpret_cast<const LinearGradient &>(gradient)));
@@ -182,24 +184,24 @@ void Brush::setGradient(const graph::Gradient& gradient) {
     d->color.reset(nullptr);
 }
 
-std::string Brush::toString() const {
+std::string brush::to_string() const {
     switch (type()) {
-    case Brush::Type::Solid:
+    case type::Solid:
         return color().toString();
 
-    case Brush::Type::Gradient:
+    case type::Gradient:
         return gradient().toString();
 
-    case Brush::Type::Surface:
+    case type::Surface:
         return "Surface";
         
-    case Brush::Type::Null:
+    case type::Null:
         return "Null";
     }
 }
 
-std::ostream & operator<<(std::ostream &out, const Brush &brush) {
-    return out << brush.toString();
+std::ostream & operator<<(std::ostream &out, const brush &brush) {
+    return out << brush.to_string();
 }
 
 } /* namespace graph */

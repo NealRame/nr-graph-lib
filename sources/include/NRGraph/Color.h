@@ -12,7 +12,7 @@ namespace com {
 namespace nealrame {
 namespace graph {
 class Color {
-    friend class Brush;
+    friend class brush;
     friend class Painter;
 
 public:

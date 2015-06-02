@@ -12,10 +12,11 @@
 namespace com {
 namespace nealrame {
 namespace graph {
+class brush;
 class Painter;
 class Point;
 class RadialGradient : public Gradient {
-    friend class Brush;
+    friend class brush;
     friend class Painter;
 
 public:

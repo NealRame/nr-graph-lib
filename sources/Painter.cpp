@@ -84,12 +84,12 @@ struct Painter::impl {
         restore();
     }
 
-    Brush brush() const {
-        return Brush(::cairo_get_source(cairo_context.get()));
+    class brush brush() const {
+        return (class brush)(::cairo_get_source(cairo_context.get()));
     }
 
-    void setBrush(const Brush &brush) {
-        auto pattern = brush.pattern_();
+    void setBrush(const class brush &br) {
+        auto pattern = br.pattern_();
         ::cairo_set_source(cairo_context.get(), reinterpret_cast<cairo_pattern_t *>(pattern.get()));
     }
 
@@ -157,12 +157,12 @@ void Painter::restore() {
     d->restore();
 }
 
-Brush Painter::brush() const {
+class brush Painter::brush() const {
     return d->brush();
 }
 
-void Painter::setBrush(const Brush &brush) {
-    d->setBrush(brush);
+void Painter::setBrush(const class brush &br) {
+    d->setBrush(br);
 }
 
 Pen Painter::pen() const {

@@ -45,8 +45,8 @@ public:
     void restore();
 
 public:
-    Brush brush() const;
-    void setBrush(const Brush &);
+    class brush brush() const;
+    void setBrush(const class brush &);
 
     Pen pen() const;
     void setPen(const Pen &);
