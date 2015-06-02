@@ -35,7 +35,7 @@ template<typename MODEL>
 bool isValid(const MODEL &m);
 
 template<>
-bool isValid<Color::CMYK>(const Color::CMYK &cmyk) {
+bool isValid<color::CMYK>(const color::CMYK &cmyk) {
     return cmyk.cyan >= 0 && cmyk.cyan <= 1
         && cmyk.magenta >= 0 && cmyk.magenta <= 1
         && cmyk.yellow >= 0 && cmyk.yellow <= 1
@@ -43,46 +43,46 @@ bool isValid<Color::CMYK>(const Color::CMYK &cmyk) {
 }
 
 template<>
-bool isValid<Color::HSL>(const Color::HSL &hsl) {
+bool isValid<color::HSL>(const color::HSL &hsl) {
     return hsl.hue >= 0 && hsl.hue < 360
         && hsl.saturation >= 0 && hsl.saturation <= 1
         && hsl.lightness >= 0 && hsl.lightness <= 1;
 }
 
 template<>
-bool isValid<Color::HSV>(const Color::HSV &hsv) {
+bool isValid<color::HSV>(const color::HSV &hsv) {
     return hsv.hue >= 0 && hsv.hue < 360
         && hsv.saturation >= 0 && hsv.saturation <= 1
         && hsv.value >= 0 && hsv.value <= 1;
 }
 
 template<>
-bool isValid<Color::RGB>(const Color::RGB &rgb) {
+bool isValid<color::RGB>(const color::RGB &rgb) {
     return rgb.red >= 0 && rgb.red <= 1
         && rgb.green >= 0 && rgb.green <= 1
         && rgb.blue >= 0 && rgb.blue <= 1;
 }
 
-bool operator==(const Color::CMYK &lhs, const Color::CMYK &rhs) {
+bool operator==(const color::CMYK &lhs, const color::CMYK &rhs) {
     return lhs.cyan == rhs.cyan
     && lhs.magenta == rhs.magenta
     && lhs.yellow == rhs.magenta
     && lhs.black == rhs.black;
 }
 
-bool operator==(const Color::HSL &lhs, const Color::HSL &rhs) {
+bool operator==(const color::HSL &lhs, const color::HSL &rhs) {
     return lhs.hue == rhs.hue
     && lhs.saturation == rhs.saturation
     && lhs.lightness == rhs.lightness;
 }
 
-bool operator==(const Color::HSV &lhs, const Color::HSV &rhs) {
+bool operator==(const color::HSV &lhs, const color::HSV &rhs) {
     return lhs.hue == rhs.hue
     && lhs.saturation == rhs.saturation
     && lhs.value == rhs.value;
 }
 
-bool operator==(const Color::RGB &lhs, const Color::RGB &rhs) {
+bool operator==(const color::RGB &lhs, const color::RGB &rhs) {
     return lhs.red == rhs.red
     && lhs.green == rhs.green
     && lhs.blue == rhs.blue;
@@ -98,16 +98,16 @@ TARGET convert(const SOURCE &source) {
     if (! isValid<SOURCE>(source)) {
         Error::raise(Error::InvalidValue);
     }
-    return convert<Color::RGB, TARGET>(convert<SOURCE, Color::RGB>(source));
+    return convert<color::RGB, TARGET>(convert<SOURCE, color::RGB>(source));
 }
 
 template<>
-Color::CMYK convert(const Color::RGB &source) {
+color::CMYK convert(const color::RGB &source) {
     if (! isValid(source)) {
         Error::raise(Error::InvalidValue);
     }
     const auto k = 1 - max(source.red, source.green, source.blue);
-    return Color::CMYK{
+    return color::CMYK{
         (1 - source.red - k)/(1 - k),
         (1 - source.green - k)/(1 - k),
         (1 - source.blue - k)/(1 - k),
@@ -116,12 +116,12 @@ Color::CMYK convert(const Color::RGB &source) {
 }
 
 template<>
-Color::RGB convert(const Color::CMYK &source) {
+color::RGB convert(const color::CMYK &source) {
     if (! isValid(source)) {
         Error::raise(Error::InvalidValue);
     }
     const auto k = 1 - source.black;
-    return Color::RGB{
+    return color::RGB{
         k*(1 - source.cyan),
         k*(1 - source.magenta),
         k*(1 - source.yellow)
@@ -129,12 +129,12 @@ Color::RGB convert(const Color::CMYK &source) {
 }
 
 template<>
-Color::HSL convert(const Color::RGB &source) {
+color::HSL convert(const color::RGB &source) {
     if (! isValid(source)) {
         Error::raise(Error::InvalidValue);
     }
 
-    Color::HSL hsl;
+    color::HSL hsl;
     const auto cmax = max(source.red, source.green, source.blue);
     const auto cmin = min(source.red, source.green, source.blue);
     const auto delta = cmax - cmin;
@@ -161,7 +161,7 @@ Color::HSL convert(const Color::RGB &source) {
 }
 
 template<>
-Color::RGB convert(const Color::HSL &source) {
+color::RGB convert(const color::HSL &source) {
     if (! isValid(source)) {
         Error::raise(Error::InvalidValue);
     }
@@ -171,17 +171,17 @@ Color::RGB convert(const Color::HSL &source) {
     const auto x = c*(1 - std::fabs(std::fmod(source.hue/60, 2) - 1));
     const auto h = source.hue;
 
-    if (h < 60)  return Color::RGB{c + m, x + m, m};
-    if (h < 120) return Color::RGB{x + m, c + m, m};
-    if (h < 180) return Color::RGB{m, c + m, x + m};
-    if (h < 240) return Color::RGB{m, x + m, c + m};
-    if (h < 300) return Color::RGB{x + m, m, c + m};
+    if (h < 60)  return color::RGB{c + m, x + m, m};
+    if (h < 120) return color::RGB{x + m, c + m, m};
+    if (h < 180) return color::RGB{m, c + m, x + m};
+    if (h < 240) return color::RGB{m, x + m, c + m};
+    if (h < 300) return color::RGB{x + m, m, c + m};
 
-    return Color::RGB{c + m, m, x + m};
+    return color::RGB{c + m, m, x + m};
 }
 
 template<>
-Color::HSV convert(const Color::RGB &source) {
+color::HSV convert(const color::RGB &source) {
     if (! isValid(source)) {
         Error::raise(Error::InvalidValue);
     }
@@ -190,7 +190,7 @@ Color::HSV convert(const Color::RGB &source) {
     const auto cmin  = min<double>(source.red, source.green, source.blue);
     const auto delta = cmax - cmin;
 
-    Color::HSV hsv;
+    color::HSV hsv;
 
     if (delta != 0) {
         if (cmax == source.red) {
@@ -215,7 +215,7 @@ Color::HSV convert(const Color::RGB &source) {
 }
 
 template<>
-Color::RGB convert(const Color::HSV &source) {
+color::RGB convert(const color::HSV &source) {
     if (! isValid(source)) {
         Error::raise(Error::InvalidValue);
     }
@@ -225,11 +225,11 @@ Color::RGB convert(const Color::HSV &source) {
     const auto m = source.value - c;
     const auto h = source.hue;
 
-    if (h < 60)  return Color::RGB{c + m, x + m, m };
-    if (h < 120) return Color::RGB{x + m, c + m, m };
-    if (h < 180) return Color::RGB{m, c + m, x + m };
-    if (h < 240) return Color::RGB{m, x + m, c + m };
-    if (h < 300) return Color::RGB{x + m, m, c + m };
+    if (h < 60)  return color::RGB{c + m, x + m, m };
+    if (h < 120) return color::RGB{x + m, c + m, m };
+    if (h < 180) return color::RGB{m, c + m, x + m };
+    if (h < 240) return color::RGB{m, x + m, c + m };
+    if (h < 300) return color::RGB{x + m, m, c + m };
 
     return {c + m, m, x + m};
 }
@@ -250,13 +250,13 @@ static std::string toHtmlRGBComponentString(double c) {
     return ss.str();
 }
 
-Color::Color()
+color::color()
     : _model(Rgb)
     , _rgb{0, 0, 0}
     , _alpha(1) {
 }
 
-Color::Color(Name name) :
+color::color(Name name) :
     _model(Rgb),
     _alpha(1) {
     switch(name) {
@@ -326,47 +326,47 @@ Color::Color(Name name) :
     }
 }
 
-Color::Color(const CMYK &cmyk, double alpha)
+color::color(const CMYK &cmyk, double alpha)
     : _model(Cmyk)
     , _cmyk{cmyk.cyan, cmyk.magenta, cmyk.yellow, cmyk.black}
     , _alpha(alpha) {
 }
 
-Color::Color(const struct RGB &rgb, double alpha)
+color::color(const struct RGB &rgb, double alpha)
     : _model(Rgb)
     , _rgb{rgb.red, rgb.green, rgb.blue}
     , _alpha(alpha) {
 }
 
-Color::Color(const struct HSL &hsl, double alpha)
+color::color(const struct HSL &hsl, double alpha)
     : _model(Hsl)
     , _hsl{hsl.hue, hsl.saturation, hsl.lightness}
     , _alpha(alpha) {
 }
 
-Color::Color(const struct HSV &hsv, double alpha)
+color::color(const struct HSV &hsv, double alpha)
     : _model(Hsv)
     , _hsv{hsv.hue, hsv.saturation, hsv.value}
     , _alpha(alpha) {
 }
 
-Color::Color(const void *ptr) {
+color::color(const void *ptr) {
     auto pattern = reinterpret_cast<cairo_pattern_t *>((void *)ptr);
     assert(::cairo_pattern_get_type(pattern) == CAIRO_PATTERN_TYPE_SOLID);
     _model = Rgb;
     ::cairo_pattern_get_rgba(pattern, &_rgb.red, &_rgb.green, &_rgb.blue, &_alpha);
 }
 
-Color::~Color() {
+color::~color() {
 }
 
-std::shared_ptr<void> Color::pattern_() const {
+std::shared_ptr<void> color::pattern_() const {
     const auto rgb = this->rgb();
     auto pattern = ::cairo_pattern_create_rgba(rgb.red, rgb.green, rgb.blue, _alpha);
     return std::shared_ptr<void>(pattern, ::cairo_pattern_destroy);
 }
 
-bool Color::isValid() const {
+bool color::isValid() const {
     switch (_model) {
         case Cmyk:
             return ::isValid(_cmyk);
@@ -381,7 +381,7 @@ bool Color::isValid() const {
     }
 }
 
-bool Color::operator==(const Color &other) const {
+bool color::operator==(const color &other) const {
     if (_model == other._model) {
         if (_alpha == other._alpha) {
             switch (_model) {
@@ -397,40 +397,40 @@ bool Color::operator==(const Color &other) const {
     return false;
 }
 
-Color Color::converTo(Model model) const {
+color color::converTo(Model model) const {
     switch (model) {
     case Cmyk:
         switch (_model) {
-        case Hsl:  return Color(convert<Color::HSL, Color::CMYK>(this->_hsl),  _alpha);
-        case Hsv:  return Color(convert<Color::HSV, Color::CMYK>(this->_hsv),  _alpha);
-        case Rgb:  return Color(convert<Color::RGB, Color::CMYK>(this->_rgb),  _alpha);
+        case Hsl:  return color(convert<color::HSL, color::CMYK>(this->_hsl),  _alpha);
+        case Hsv:  return color(convert<color::HSV, color::CMYK>(this->_hsv),  _alpha);
+        case Rgb:  return color(convert<color::RGB, color::CMYK>(this->_rgb),  _alpha);
         default:
             break;
         }
         break;
     case Hsl:
         switch (_model) {
-        case Cmyk: return Color(convert<Color::CMYK, Color::HSL>(this->_cmyk), _alpha);
-        case Hsv:  return Color(convert<Color::HSV, Color::HSL> (this->_hsv),  _alpha);
-        case Rgb:  return Color(convert<Color::RGB, Color::HSL> (this->_rgb),  _alpha);
+        case Cmyk: return color(convert<color::CMYK, color::HSL>(this->_cmyk), _alpha);
+        case Hsv:  return color(convert<color::HSV, color::HSL> (this->_hsv),  _alpha);
+        case Rgb:  return color(convert<color::RGB, color::HSL> (this->_rgb),  _alpha);
         default:
             break;
         }
         break;
     case Hsv:
         switch (_model) {
-        case Cmyk: return Color(convert<Color::CMYK, Color::HSV>(this->_cmyk), _alpha);
-        case Hsl:  return Color(convert<Color::HSL, Color::HSV> (this->_hsl),  _alpha);
-        case Rgb:  return Color(convert<Color::RGB, Color::HSV> (this->_rgb),  _alpha);
+        case Cmyk: return color(convert<color::CMYK, color::HSV>(this->_cmyk), _alpha);
+        case Hsl:  return color(convert<color::HSL, color::HSV> (this->_hsl),  _alpha);
+        case Rgb:  return color(convert<color::RGB, color::HSV> (this->_rgb),  _alpha);
         default:
             break;
         }
         break;
     case Rgb:
         switch (_model) {
-        case Cmyk: return Color(convert<Color::CMYK, Color::RGB>(this->_cmyk), _alpha);
-        case Hsl:  return Color(convert<Color::HSL, Color::RGB> (this->_hsl),  _alpha);
-        case Hsv:  return Color(convert<Color::HSV, Color::RGB> (this->_hsv),  _alpha);
+        case Cmyk: return color(convert<color::CMYK, color::RGB>(this->_cmyk), _alpha);
+        case Hsl:  return color(convert<color::HSL, color::RGB> (this->_hsl),  _alpha);
+        case Hsv:  return color(convert<color::HSV, color::RGB> (this->_hsv),  _alpha);
         default:
             break;
         }
@@ -441,72 +441,72 @@ Color Color::converTo(Model model) const {
     return *this;
 }
 
-double Color::alpha() const {
+double color::alpha() const {
     return _alpha;
 }
 
-void Color::setAlpha(double alpha) {
+void color::setAlpha(double alpha) {
     _alpha = alpha;
 }
 
-Color::Model Color::model() const {
+color::Model color::model() const {
     return _model;
 }
 
-void Color::setModel(Model model) {
+void color::setModel(Model model) {
     *this = converTo(model);
 }
 
-Color::CMYK Color::cmyk() const {
+color::CMYK color::cmyk() const {
     return _model == Cmyk ? _cmyk : converTo(Cmyk).cmyk();
 }
 
-void Color::setCmyk(const CMYK &cmyk) {
+void color::setCmyk(const CMYK &cmyk) {
 }
 
-Color::RGB Color::rgb() const {
+color::RGB color::rgb() const {
     return _model == Rgb  ? _rgb : converTo(Rgb).rgb();
 }
 
-void Color::setRgb(const RGB &rgb) {
-    *this = Color(rgb, _alpha);
+void color::setRgb(const RGB &rgb) {
+    *this = color(rgb, _alpha);
 }
 
-Color::HSL Color::hsl() const {
+color::HSL color::hsl() const {
     return _model == Hsl ? _hsl : converTo(Hsl).hsl();
 }
 
-void Color::setHsl(const HSL &hsl) {
-    *this = Color(hsl, _alpha);
+void color::setHsl(const HSL &hsl) {
+    *this = color(hsl, _alpha);
 }
 
-Color::HSV Color::hsv() const {
+color::HSV color::hsv() const {
     return _model == Hsv ? _hsv : converTo(Hsv).hsv();
 }
 
-void Color::setHsv(const HSL &hsv) {
-    *this = Color(hsv, _alpha);
+void color::setHsv(const HSL &hsv) {
+    *this = color(hsv, _alpha);
 }
 
-Color Color::lighter(double factor) const {
+color color::lighter(double factor) const {
     if (factor < 0) {
         Error::raise(Error::InvalidValue);
     }
     auto c = hsv();
     c.value = std::min<double>(c.value*factor, 1);
-    return Color(c, _alpha).converTo(_model);
+    return color(c, _alpha).converTo(_model);
 }
 
-Color Color::darker(double factor) const {
+color color::darker(double factor) const {
     if (factor < 0) {
         Error::raise(Error::InvalidValue);
     }
     auto c = hsv();
     c.value = std::min<double>(c.value/factor, 1);
-    return Color(c, _alpha).converTo(_model);
+    return color(c, _alpha).converTo(_model);
 }
 
-std::string Color::toHTMLString() const {
+std::string color::toHTMLString() const {
     if (_model == Rgb) {
         std::string res = 
             (boost::format("#%1%%2%%3%")
@@ -525,7 +525,7 @@ std::string Color::toHTMLString() const {
     return converTo(Rgb).toHTMLString();
 }
 
-std::string Color::toString() const {
+std::string color::toString() const {
     if (_alpha == 1) {
         switch (_model) {
         case Cmyk:
@@ -596,7 +596,7 @@ namespace com {
 namespace nealrame {
 namespace graph {
 
-std::ostream & operator<<(std::ostream &out, const Color &color)  {
+std::ostream & operator<<(std::ostream &out, const color &color)  {
     return out << color.toString();
 }
 

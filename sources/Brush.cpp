@@ -22,7 +22,7 @@ namespace nealrame {
 namespace graph {
 
 struct brush::impl {
-    std::unique_ptr<Color> color;
+    std::unique_ptr<class color> color;
     std::unique_ptr<Gradient> gradient;
 };
 
@@ -31,12 +31,12 @@ brush::brush()
     , d(new impl) {
 }
 
-brush::brush(const Color &color)
+brush::brush(const class color &c)
     : brush() {
-    set_color(color);
+    set_color(c);
 }
 
-brush::brush(const Color::Name name)
+brush::brush(const color::Name name)
     : brush() {
     set_color(name);
 }
@@ -60,7 +60,7 @@ brush::brush(const void *ptr) {
 
     switch (::cairo_pattern_get_type(pattern)) {
     case CAIRO_PATTERN_TYPE_SOLID:
-        set_color(Color(ptr));
+        set_color((class color)(ptr));
         break;
 
     case CAIRO_PATTERN_TYPE_LINEAR:
@@ -97,12 +97,12 @@ std::shared_ptr<void> brush::pattern_() const {
     return nullptr;
 }
 
-brush & brush::operator=(const Color &color) {
-    set_color(color);
+brush & brush::operator=(const class color &c) {
+    set_color(c);
     return *this;
 }
 
-brush & brush::operator=(const Color::Name &name) {
+brush & brush::operator=(const color::Name &name) {
     set_color(name);
     return *this;
 }
@@ -141,23 +141,23 @@ brush & brush::operator=(brush &&brush) {
     return *this;
 }
 
-Color & brush::color() {
+color & brush::color() {
     if (type() != type::Solid) {
         Error::raise(Error::BrushTypeMismatch);
     }
     return *d->color;
 }
 
-const Color & brush::color() const {
+const color & brush::color() const {
     return const_cast<brush *>(this)->color();
 }
 
-void brush::set_color(const Color &color) {
+void brush::set_color(const class color &c) {
     if (type() == type::Gradient) {
         d->gradient.reset(nullptr);
     }
     type_ = type::Solid;
-    d->color.reset(new Color(color));
+    d->color.reset(new (class color)(c));
 }
 
 Gradient & brush::gradient() {

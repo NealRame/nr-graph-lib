@@ -34,7 +34,7 @@ public:
 
     struct Stop {
         double offset;
-        Color color;
+        class color color;
     };
 
 public:
@@ -52,7 +52,7 @@ public:
     { _extend = extend; }
 
 public:
-    virtual void addColorStop(double, const Color &);
+    virtual void addColorStop(double, const color &);
     virtual void addColorStop(const Stop &);
     virtual void addColorStops(const std::vector<Stop> &);
     virtual void setColorStops(const std::vector<Stop> &);

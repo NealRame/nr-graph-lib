@@ -66,7 +66,7 @@ LinearGradient::LinearGradient(const void *ptr) {
     for (auto i = 0; i < stop_count; ++i) {
         double offset, r, g, b, a;
         ::cairo_pattern_get_color_stop_rgba(pattern, i, &offset, &r, &g, &b, &a);
-        addColorStop(Stop{offset, Color(Color::RGB{r, g, b}, a)});
+        addColorStop(Stop{offset, color(color::RGB{r, g, b}, a)});
     }
 }
 
@@ -92,7 +92,7 @@ std::shared_ptr<void> LinearGradient::pattern_() const {
         break;
     }
     for (const Gradient::Stop &stop : colorStops()) {
-        Color::RGB rgb = stop.color.rgb();
+        auto rgb = stop.color.rgb();
         cairo_pattern_add_color_stop_rgba(pattern, stop.offset, rgb.red, rgb.green, rgb.blue, stop.color.alpha());
     }
 

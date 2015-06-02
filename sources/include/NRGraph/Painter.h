@@ -11,8 +11,8 @@
 namespace com {
 namespace nealrame {
 namespace graph {
-class Brush;
-class Color;
+class brush;
+class color;
 class Line;
 class Pen;
 class Rectangle;
@@ -38,7 +38,7 @@ public:
     void setAntialiasing(Antialias);
 
 public:
-    void clear(const Color &);
+    void clear(const color &);
 
 public:
     void save();

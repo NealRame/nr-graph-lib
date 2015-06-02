@@ -35,8 +35,8 @@ void Gradient::addColorStop(const Stop &stop){
     _stops.insert(it, stop);
 }
 
-void Gradient::addColorStop(double offset, const Color &color) {
-    addColorStop({offset, color});
+void Gradient::addColorStop(double offset, const color &c) {
+    addColorStop({offset, c});
 }
 
 void Gradient::addColorStops(const std::vector<Stop> &stops) {

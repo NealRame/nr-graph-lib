@@ -1,4 +1,4 @@
-/// Color.h
+/// color.h
 ///
 ///  Created on: Jun 8, 2013
 ///      Author: jux
@@ -11,7 +11,7 @@
 namespace com {
 namespace nealrame {
 namespace graph {
-class Color {
+class color {
     friend class brush;
     friend class Painter;
 
@@ -65,22 +65,22 @@ public:
     };
 
 public:
-    Color();
-    Color(Name);
-    Color(const CMYK &, double alpha=1);
-    Color(const RGB  &, double alpha=1);
-    Color(const HSL  &, double alpha=1);
-    Color(const HSV  &, double alpha=1);
-    virtual ~Color();
+    color();
+    color(Name);
+    color(const CMYK &, double alpha=1);
+    color(const RGB  &, double alpha=1);
+    color(const HSL  &, double alpha=1);
+    color(const HSV  &, double alpha=1);
+    virtual ~color();
 
 public:
     bool isValid() const;
 
 public:
-    bool operator==(const Color &other) const;
+    bool operator==(const color &other) const;
 
 public:
-    Color converTo(Model) const;
+    color converTo(Model) const;
 
 public:
     double alpha() const;
@@ -102,15 +102,15 @@ public:
     void setHsv(const HSL &);
 
 public:
-    Color lighter(double) const;
-    Color darker(double) const;
+    color lighter(double) const;
+    color darker(double) const;
 
 public:
     std::string toHTMLString() const;
     std::string toString() const;
 
 private:
-    Color(const void *);
+    color(const void *);
     std::shared_ptr<void> pattern_() const;
 
 private:
@@ -123,7 +123,7 @@ private:
     };
     double _alpha;
 };
-std::ostream & operator<<(std::ostream &, const Color &);
+std::ostream & operator<<(std::ostream &, const color &);
 } // namespace graph
 } // namespace nealrame
 } // namespace com

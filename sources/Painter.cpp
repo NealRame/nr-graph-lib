@@ -77,9 +77,9 @@ struct Painter::impl {
         ::cairo_restore(cairo_context.get());
     }
 
-    void clear(const Color &color) {
+    void clear(const color &c) {
         save();
-        setBrush(color);
+        setBrush(c);
         fillRectangle(Rectangle(Point(0, 0), surface.size()));
         restore();
     }
@@ -145,8 +145,8 @@ void Painter::setAntialiasing(Antialias antialias) {
     d->setAntialiasing(antialias);
 }
 
-void Painter::clear(const Color &color) {
-    d->clear(color);
+void Painter::clear(const color &c) {
+    d->clear(c);
 }
 
 void Painter::save() {
