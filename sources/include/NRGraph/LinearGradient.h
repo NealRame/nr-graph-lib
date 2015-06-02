@@ -1,4 +1,4 @@
-/// GraphLinearGradient.h
+/// linear_gradient.h
 ///
 /// - Created on: 13 juin 2013
 /// -     Author: jux
@@ -15,44 +15,44 @@ namespace nealrame {
 namespace graph {
 class brush;
 class Painter;
-class LinearGradient : public gradient {
+class linear_gradient : public gradient {
     friend class brush;
     friend class Painter;
 
 public:
-    LinearGradient();
-    LinearGradient(const Point &start, const Point &end);
-    LinearGradient(const LinearGradient &other);
-    virtual ~LinearGradient();
+    linear_gradient();
+    linear_gradient(const Point &start, const Point &end);
+    linear_gradient(const linear_gradient &other);
+    virtual ~linear_gradient();
 
 public:
     virtual Type type() const override
     { return Type::Linear; }
 
 public:
-    Point startPoint() const
+    Point start_point() const
     { return _start_point; }
     
-    void setStartPoint(const Point &point)
+    void set_start_point(const Point &point)
     { _start_point = point; }
     
-    Point endPoint() const
+    Point end_point() const
     { return _end_point; }
     
-    void setEndPoint(const Point &point)
+    void set_end_point(const Point &point)
     { _end_point = point; }
 
 public:
-    LinearGradient & operator=(const gradient &);
+    linear_gradient & operator=(const gradient &);
 
 public:
-    virtual std::string typeToString() const;
+    virtual std::string type_to_string() const;
 
 protected:
     virtual std::shared_ptr<void> pattern_() const override;
 
 private:
-    LinearGradient(const void *);
+    linear_gradient(const void *);
 
 private:
     Point _start_point;

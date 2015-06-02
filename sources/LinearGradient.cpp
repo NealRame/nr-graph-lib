@@ -1,5 +1,5 @@
 /*
- * GraphLinearGradient.cpp
+ * linear_gradient.cpp
  *
  *  Created on: 13 juin 2013
  *      Author: jux
@@ -19,29 +19,29 @@ extern "C" {
 
 using namespace com::nealrame::graph;
 
-LinearGradient::LinearGradient() {
+linear_gradient::linear_gradient() {
 }
 
-LinearGradient::LinearGradient(const Point &start, const Point &end)
+linear_gradient::linear_gradient(const Point &start, const Point &end)
     : _start_point(start)
     , _end_point(end) {
 }
 
-LinearGradient::LinearGradient(const LinearGradient &other)
+linear_gradient::linear_gradient(const linear_gradient &other)
     : gradient(other)
     , _start_point(other._start_point)
     , _end_point(other._end_point) {
 }
 
-LinearGradient::LinearGradient(const void *ptr) {
+linear_gradient::linear_gradient(const void *ptr) {
     auto pattern = reinterpret_cast<cairo_pattern_t *>((void *)ptr);
 
     assert(::cairo_pattern_get_type(pattern) == CAIRO_PATTERN_TYPE_LINEAR);
 
     double x1, y1, x2, y2;
     ::cairo_pattern_get_linear_points(pattern, &x1, &y1, &x2, &y2);
-    setStartPoint(Point{x1, y1});
-    setEndPoint(Point{x2, y2});
+    set_start_point(Point{x1, y1});
+    set_end_point(Point{x2, y2});
 
     switch(::cairo_pattern_get_extend(pattern)) {
     case CAIRO_EXTEND_NONE:
@@ -70,11 +70,11 @@ LinearGradient::LinearGradient(const void *ptr) {
     }
 }
 
-LinearGradient::~LinearGradient() {
+linear_gradient::~linear_gradient() {
 }
 
-std::shared_ptr<void> LinearGradient::pattern_() const {
-    const auto p1 = startPoint(), p2 = endPoint();
+std::shared_ptr<void> linear_gradient::pattern_() const {
+    const auto p1 = start_point(), p2 = end_point();
     auto pattern = cairo_pattern_create_linear(p1.x(), p1.y(), p2.x(), p2.y());
 
     switch (extend()) {
@@ -99,11 +99,11 @@ std::shared_ptr<void> LinearGradient::pattern_() const {
     return std::shared_ptr<void>(pattern, ::cairo_pattern_destroy);
 }
 
-LinearGradient & LinearGradient::operator=(const class gradient &rhs) {
+linear_gradient & linear_gradient::operator=(const class gradient &rhs) {
     gradient::operator=(rhs);
     return *this;
 }
 
-std::string LinearGradient::typeToString() const {
-    return "LinearGradient";
+std::string linear_gradient::type_to_string() const {
+    return "linear_gradient";
 }

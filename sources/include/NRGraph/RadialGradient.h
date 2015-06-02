@@ -1,4 +1,4 @@
-/// GraphRadialGradient.h
+/// radial_gradient.h
 ///
 /// - Created on: 13 juin 2013
 /// -     Author: jux
@@ -15,52 +15,52 @@ namespace graph {
 class brush;
 class Painter;
 class Point;
-class RadialGradient : public gradient {
+class radial_gradient : public gradient {
     friend class brush;
     friend class Painter;
 
 public:
-    RadialGradient(const Point &center, double radius);
-    RadialGradient(const Point &starCenter, double startRadius, const Point &endCenter, double endRadius);
-    RadialGradient(const RadialGradient &);
-    virtual ~RadialGradient();
+    radial_gradient(const Point &center, double radius);
+    radial_gradient(const Point &starCenter, double startRadius, const Point &endCenter, double endRadius);
+    radial_gradient(const radial_gradient &);
+    virtual ~radial_gradient();
 
 public:
     virtual Type type() const override
     { return gradient::Type::Radial; }
 
 public:
-    Point startCircleCenterPoint() const
+    Point start_circle_center_point() const
     { return _start_circle_center; }
-    void setStartCircleCenterPoint(const Point &p)
+    void set_start_circle_center_point(const Point &p)
     { _start_circle_center = p; }
 
-    double startCircleRadius() const
+    double start_circle_radius() const
     { return _start_circle_radius; }
-    void setStartCircleRadius(double radius)
+    void set_start_circle_radius(double radius)
     { _start_circle_radius = radius; }
 
-    Point endCircleCenterPoint() const
+    Point end_circle_center_point() const
     { return _end_circle_center; }
-    void setEndCircleCenterPoint(const Point &p)
+    void set_end_circle_center_point(const Point &p)
     { _end_circle_center = p; }
 
-    double endCircleRadius() const
+    double end_circle_radius() const
     { return _end_circle_radius; }
-    void setEndCircleRadius(double radius)
+    void set_end_circle_radius(double radius)
     { _end_circle_radius = radius; }
 
 public:
-    RadialGradient & operator=(const gradient &);
+    radial_gradient & operator=(const gradient &);
 
 public:
-    virtual std::string typeToString() const;
+    virtual std::string type_to_string() const;
 
 protected:
     virtual std::shared_ptr<void> pattern_() const override;
 
 private:
-    RadialGradient(const void *);
+    radial_gradient(const void *);
 
 private:
     Point _start_circle_center;

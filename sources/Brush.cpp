@@ -64,11 +64,11 @@ brush::brush(const void *ptr) {
         break;
 
     case CAIRO_PATTERN_TYPE_LINEAR:
-        set_gradient(LinearGradient(ptr));
+        set_gradient(linear_gradient(ptr));
         break;
 
     case CAIRO_PATTERN_TYPE_RADIAL:
-        set_gradient(RadialGradient(ptr));
+        set_gradient(radial_gradient(ptr));
         break;
         
     case CAIRO_PATTERN_TYPE_SURFACE:
@@ -175,10 +175,10 @@ void brush::set_gradient(const class gradient& gradient) {
     type_ = type::Gradient;
     switch (gradient.type()) {
     case gradient::Type::Linear:
-        d->gradient.reset(new LinearGradient(reinterpret_cast<const LinearGradient &>(gradient)));
+        d->gradient.reset(new linear_gradient(reinterpret_cast<const linear_gradient &>(gradient)));
         break;
     case gradient::Type::Radial:
-        d->gradient.reset(new RadialGradient(reinterpret_cast<const RadialGradient &>(gradient)));
+        d->gradient.reset(new radial_gradient(reinterpret_cast<const radial_gradient &>(gradient)));
         break;
     }
     d->color.reset(nullptr);

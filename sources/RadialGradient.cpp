@@ -19,39 +19,39 @@ extern "C" {
 
 using namespace com::nealrame::graph;
 
-RadialGradient::RadialGradient(const Point &center, double radius)
+radial_gradient::radial_gradient(const Point &center, double radius)
     : _start_circle_center(center)
     , _start_circle_radius(radius)
     , _end_circle_center(center)
     , _end_circle_radius(radius) {
 }
 
-RadialGradient::RadialGradient(const Point &startCenter, double startRadius, const Point &endCenter, double endRadius)
+radial_gradient::radial_gradient(const Point &startCenter, double startRadius, const Point &endCenter, double endRadius)
     : _start_circle_center(startCenter)
     , _start_circle_radius(startRadius)
     , _end_circle_center(endCenter)
     , _end_circle_radius(endRadius) {
 }
 
-RadialGradient::RadialGradient(const RadialGradient &other)
+radial_gradient::radial_gradient(const radial_gradient &other)
     : gradient(other)
-    , _start_circle_center(other.startCircleCenterPoint())
-    , _start_circle_radius(other.startCircleRadius())
-    , _end_circle_center(other.endCircleCenterPoint())
-    , _end_circle_radius(other.endCircleRadius()) {
+    , _start_circle_center(other.start_circle_center_point())
+    , _start_circle_radius(other.start_circle_radius())
+    , _end_circle_center(other.end_circle_center_point())
+    , _end_circle_radius(other.end_circle_radius()) {
 }
 
-RadialGradient::RadialGradient(const void *ptr) {
+radial_gradient::radial_gradient(const void *ptr) {
     auto pattern = reinterpret_cast<cairo_pattern_t *>((void *)ptr);
 
     assert(::cairo_pattern_get_type(pattern) == CAIRO_PATTERN_TYPE_RADIAL);
 
     double x1, y1, x2, y2, r1, r2;
     ::cairo_pattern_get_radial_circles(pattern, &x1, &y1, &r1, &x2, &y2, &r2);
-    setStartCircleCenterPoint(Point{x1, y1});
-    setStartCircleRadius(r1);
-    setEndCircleCenterPoint(Point{x2, y2});
-    setEndCircleRadius(r2);
+    set_start_circle_center_point(Point{x1, y1});
+    set_start_circle_radius(r1);
+    set_end_circle_center_point(Point{x2, y2});
+    set_end_circle_radius(r2);
 
     switch(::cairo_pattern_get_extend(pattern)) {
     case CAIRO_EXTEND_NONE:
@@ -80,12 +80,12 @@ RadialGradient::RadialGradient(const void *ptr) {
     }
 }
 
-RadialGradient::~RadialGradient() {
+radial_gradient::~radial_gradient() {
 }
 
-std::shared_ptr<void> RadialGradient::pattern_() const {
-    const auto c1 = startCircleCenterPoint(), c2 = endCircleCenterPoint();
-    const auto r1 = startCircleRadius(), r2 = endCircleRadius();
+std::shared_ptr<void> radial_gradient::pattern_() const {
+    const auto c1 = start_circle_center_point(), c2 = end_circle_center_point();
+    const auto r1 = start_circle_radius(), r2 = end_circle_radius();
 
     auto pattern = cairo_pattern_create_radial(c1.x(), c1.y(), r1, c2.x(), c2.y(), r2);
 
@@ -111,11 +111,11 @@ std::shared_ptr<void> RadialGradient::pattern_() const {
     return std::shared_ptr<void>(pattern, ::cairo_pattern_destroy);
 }
 
-RadialGradient & RadialGradient::operator=(const gradient &gradient) {
+radial_gradient & radial_gradient::operator=(const gradient &gradient) {
     gradient::operator=(gradient);
     return *this;
 }
 
-std::string RadialGradient::typeToString() const {
-    return "RadialGradient";
+std::string radial_gradient::type_to_string() const {
+    return "radial_gradient";
 }
