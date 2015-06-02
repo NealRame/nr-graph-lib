@@ -18,60 +18,87 @@
 
 using namespace com::nealrame::graph;
 
-Surface::Surface(Size size, Backend backend) {
-    int w = static_cast<int>(size.width()),
-        h = static_cast<int>(size.height());
+namespace {
+    struct surface_deleter {
+        void operator()(void *surface_ptr) {
+            cairo_surface_destroy(reinterpret_cast<cairo_surface_t *>(surface_ptr));
+        }
+    };
 
-    cairo_surface_t *surface = nullptr;
+}
 
-    switch (backend) {
-    case Backend::Image:
-        surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, w, h);
-        break;
-    default:
-        Error::raise(Error::NotImplemented);
+struct Surface::impl {
+    std::unique_ptr<cairo_surface_t, ::surface_deleter> cairo_surface;
+
+    impl(Size size, Backend backend) {
+        switch (backend) {
+            case Backend::Image:
+                cairo_surface.reset(
+                    cairo_image_surface_create(
+                        CAIRO_FORMAT_ARGB32, size.width(), size.height()
+                    )
+                );
+                break;
+
+            default:
+                Error::raise(Error::NotImplemented);
+        }
+
+        cairo_status_t status;
+        if ((status = cairo_surface_status(cairo_surface.get())) != CAIRO_STATUS_SUCCESS) {
+            Error::raise(Error::InternalError, cairo_status_to_string(status));
+        }
     }
 
-    cairo_status_t status;
-
-    if ((status = cairo_surface_status(surface)) != CAIRO_STATUS_SUCCESS) {
-        Error::raise(Error::InternalError, cairo_status_to_string(status));
+    Size size() const {
+        auto surface_ptr = cairo_surface.get();
+        return Size(
+            static_cast<double>(cairo_image_surface_get_width(surface_ptr)),
+            static_cast<double>(cairo_image_surface_get_height(surface_ptr))
+        );
     }
 
-    _priv_data = surface;
+    void exportToPNG(const std::string &path) const {
+        auto status = cairo_surface_write_to_png(cairo_surface.get(), path.data());
+        switch(status) {
+            case CAIRO_STATUS_SUCCESS:
+                break;
+
+            case CAIRO_STATUS_WRITE_ERROR:
+                Error::raise(Error::IOError);
+                break;
+
+            case CAIRO_STATUS_SURFACE_TYPE_MISMATCH:
+                Error::raise(Error::SurfaceTypeMismatch);
+                break;
+
+            case CAIRO_STATUS_NO_MEMORY:
+                Error::raise(Error::NoMemory);
+                break;
+
+            default:
+                Error::raise(Error::InternalError, cairo_status_to_string(status));
+                break;
+        }
+    }
+};
+
+Surface::Surface(Size size, Backend backend) 
+    : d(new impl(size, backend)) {
 }
 
 Surface::~Surface() {
-    auto surface = CAIRO_SURFACE(_priv_data);
-    cairo_surface_destroy(surface);
 }
 
 Size Surface::size() const {
-    auto surface = CAIRO_SURFACE(_priv_data);
-    return Size(static_cast<double>(cairo_image_surface_get_width(surface)),
-                static_cast<double>(cairo_image_surface_get_height(surface)));
+    return d->size();
+
 }
 
 void Surface::exportToPNG(const std::string &path) const {
-    cairo_status_t status;
+    return d->exportToPNG(path);
+}
 
-    if ((status = cairo_surface_write_to_png(CAIRO_SURFACE(_priv_data), path.data())) != CAIRO_STATUS_SUCCESS) {
-        switch(status) {
-        case CAIRO_STATUS_WRITE_ERROR:
-            Error::raise(Error::IOError);
-            break;
-
-        case CAIRO_STATUS_SURFACE_TYPE_MISMATCH:
-            Error::raise(Error::SurfaceTypeMismatch);
-            break;
-
-        case CAIRO_STATUS_NO_MEMORY:
-            Error::raise(Error::NoMemory);
-            break;
-
-        default:
-            Error::raise(Error::InternalError, cairo_status_to_string(status));
-            break;
-        }
-    }
+void * Surface::priv_data_() {
+    return d->cairo_surface.get();
 }

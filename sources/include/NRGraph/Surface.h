@@ -6,6 +6,7 @@
 
 #include <NRGraph/Size.h>
 
+#include <memory>
 #include <string>
 
 namespace com {
@@ -33,7 +34,11 @@ public:
     void exportToPNG(const std::string &) const;
 
 private:
-    void *_priv_data;
+    void * priv_data_();
+
+private:
+    struct impl;
+    std::unique_ptr<impl> d;
 };
 
 } // namespace graph

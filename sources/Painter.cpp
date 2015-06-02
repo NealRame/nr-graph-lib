@@ -27,8 +27,11 @@ extern "C" {
 
 using namespace com::nealrame::graph;
 
-Painter::Painter(Surface &surface) : _surface(surface) {
-    cairo_t *context = cairo_create(CAIRO_SURFACE(surface));
+Painter::Painter(Surface &surface)
+    : _surface(surface) {
+    auto context = cairo_create(
+        reinterpret_cast<cairo_surface_t *>(surface.priv_data_())
+    );
 
     cairo_status_t status;
     if ((status = cairo_status(context)) != CAIRO_STATUS_SUCCESS) {
