@@ -126,10 +126,6 @@ Brush & Brush::operator=(const Brush &brush) {
     return *this;
 }
 
-Brush::Type Brush::type() const {
-    return _type;
-}
-
 Color &  Brush::color() {
     if (type() != Type::Solid) {
         Error::raise(Error::BrushTypeMismatch);

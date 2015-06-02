@@ -45,7 +45,9 @@ public:
     }
 
 public:
-    Type type() const;
+    Type type() const {
+        return _type;
+    }
 
 public:
     Color & color();
