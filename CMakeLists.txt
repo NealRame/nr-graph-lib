@@ -41,7 +41,7 @@ if(${CMAKE_GENERATOR} MATCHES "Unix Makefiles")
   list(
     APPEND DIRS
     ${Boost_INCLUDE_DIRS}
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/sources/include
     ${LIBCAIRO_INCLUDE_DIRS}
   )
 
