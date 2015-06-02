@@ -31,6 +31,7 @@ public:
     Brush(const Color::Name);
     Brush(const Gradient &);
     Brush(const Brush &);
+    Brush(Brush &&);
     virtual ~Brush();
 
 public:
@@ -38,6 +39,7 @@ public:
     Brush & operator=(const Color::Name &);
     Brush & operator=(const Gradient &);
     Brush & operator=(const Brush &);
+    Brush & operator=(Brush &&);
 
 public:
     bool isNull() const {
@@ -67,10 +69,8 @@ private:
 
 private:
     Type type_;
-    union {
-        Color color_;
-        Gradient *gradient_;
-    };
+    struct impl;
+    std::unique_ptr<impl> d;
 };
 
 std::ostream & operator<<(std::ostream &, const Brush &);

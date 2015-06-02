@@ -21,8 +21,14 @@ namespace com {
 namespace nealrame {
 namespace graph {
 
+struct Brush::impl {
+    std::unique_ptr<Color> color;
+    std::unique_ptr<Gradient> gradient;
+};
+
 Brush::Brush()
-    : type_(Type::Null) {
+    : type_(Type::Null)
+    , d(new impl) {
 }
 
 Brush::Brush(const Color &color)
@@ -43,6 +49,10 @@ Brush::Brush(const graph::Gradient &gradient)
 Brush::Brush(const Brush &brush)
     : Brush() {
     *this = brush;
+}
+
+Brush::Brush(Brush &&brush) {
+    *this = std::move(brush);
 }
 
 Brush::Brush(const void *ptr) {
@@ -70,9 +80,6 @@ Brush::Brush(const void *ptr) {
 }
 
 Brush::~Brush() {
-    if (type() == Type::Gradient) {
-        delete gradient_;
-    }
 }
 
 std::shared_ptr<void> Brush::pattern_() const {
@@ -126,49 +133,53 @@ Brush & Brush::operator=(const Brush &brush) {
     return *this;
 }
 
-Color &  Brush::color() {
+Brush & Brush::operator=(Brush &&brush) {
+    this->type_ = brush.type_;
+    this->d = std::move(brush.d);
+    return *this;
+}
+
+Color & Brush::color() {
     if (type() != Type::Solid) {
         Error::raise(Error::BrushTypeMismatch);
     }
-    return color_;
+    return *d->color;
 }
 
 const Color & Brush::color() const {
-    return const_cast<const Color &>(const_cast<Brush *>(this)->color());
+    return const_cast<Brush *>(this)->color();
 }
 
 void Brush::setColor(const Color &color) {
     if (type() == Type::Gradient) {
-        delete gradient_;
+        d->gradient.reset(nullptr);
     }
     type_ = Type::Solid;
-    color_ = color;
+    d->color.reset(new Color(color));
 }
 
 Gradient & Brush::gradient() {
     if (type() != Type::Gradient) {
         Error::raise(Error::BrushTypeMismatch);
     }
-    return *gradient_;
+    return *d->gradient;
 }
 
 const Gradient & Brush::gradient() const {
-    return const_cast<const Gradient &>(const_cast<Brush *>(this)->gradient());
+    return const_cast<Brush *>(this)->gradient();
 }
 
 void Brush::setGradient(const graph::Gradient& gradient) {
-    if (type() == Type::Gradient) {
-        delete gradient_;
-    }
     type_ = Type::Gradient;
     switch (gradient.type()) {
     case Gradient::Type::Linear:
-        gradient_ = new LinearGradient(reinterpret_cast<const LinearGradient &>(gradient));
+        d->gradient.reset(new LinearGradient(reinterpret_cast<const LinearGradient &>(gradient)));
         break;
     case Gradient::Type::Radial:
-        gradient_ =  new RadialGradient(reinterpret_cast<const RadialGradient &>(gradient));
+        d->gradient.reset(new RadialGradient(reinterpret_cast<const RadialGradient &>(gradient)));
         break;
     }
+    d->color.reset(nullptr);
 }
 
 std::string Brush::toString() const {
