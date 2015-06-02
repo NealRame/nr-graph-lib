@@ -15,6 +15,7 @@ namespace graph {
 class Painter;
 class Surface {
     friend class Painter;
+    
 public:
     enum class Backend {
         Image,
