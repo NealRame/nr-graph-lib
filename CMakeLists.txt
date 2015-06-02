@@ -26,7 +26,7 @@ find_package(Cairo REQUIRED)
 
 ###
 ### Project
-add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src")
+add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/sources")
 #add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/tests")
 
 ###
