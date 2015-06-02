@@ -23,7 +23,7 @@ namespace graph {
 
 struct brush::impl {
     std::unique_ptr<class color> color;
-    std::unique_ptr<Gradient> gradient;
+    std::unique_ptr<class gradient> gradient;
 };
 
 brush::brush()
@@ -41,7 +41,7 @@ brush::brush(const color::Name name)
     set_color(name);
 }
 
-brush::brush(const graph::Gradient &gradient)
+brush::brush(const class graph::gradient &gradient)
     : brush() {
     set_gradient(gradient);
 }
@@ -107,7 +107,7 @@ brush & brush::operator=(const color::Name &name) {
     return *this;
 }
 
-brush & brush::operator=(const Gradient &gradient) {
+brush & brush::operator=(const class gradient &gradient) {
     set_gradient(gradient);
     return *this;
 }
@@ -160,24 +160,24 @@ void brush::set_color(const class color &c) {
     d->color.reset(new (class color)(c));
 }
 
-Gradient & brush::gradient() {
+class gradient & brush::gradient() {
     if (type() != type::Gradient) {
         error::raise(error::BrushTypeMismatch);
     }
     return *d->gradient;
 }
 
-const Gradient & brush::gradient() const {
+const class gradient & brush::gradient() const {
     return const_cast<brush *>(this)->gradient();
 }
 
-void brush::set_gradient(const graph::Gradient& gradient) {
+void brush::set_gradient(const class gradient& gradient) {
     type_ = type::Gradient;
     switch (gradient.type()) {
-    case Gradient::Type::Linear:
+    case gradient::Type::Linear:
         d->gradient.reset(new LinearGradient(reinterpret_cast<const LinearGradient &>(gradient)));
         break;
-    case Gradient::Type::Radial:
+    case gradient::Type::Radial:
         d->gradient.reset(new RadialGradient(reinterpret_cast<const RadialGradient &>(gradient)));
         break;
     }
@@ -190,7 +190,7 @@ std::string brush::to_string() const {
         return color().to_string();
 
     case type::Gradient:
-        return gradient().toString();
+        return gradient().to_string();
 
     case type::Surface:
         return "Surface";

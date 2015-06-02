@@ -15,7 +15,7 @@ namespace nealrame {
 namespace graph {
 class brush;
 class Painter;
-class LinearGradient : public Gradient {
+class LinearGradient : public gradient {
     friend class brush;
     friend class Painter;
 
@@ -27,7 +27,7 @@ public:
 
 public:
     virtual Type type() const override
-    { return Gradient::Type::Linear; }
+    { return Type::Linear; }
 
 public:
     Point startPoint() const
@@ -43,7 +43,7 @@ public:
     { _end_point = point; }
 
 public:
-    LinearGradient & operator=(const Gradient &);
+    LinearGradient & operator=(const gradient &);
 
 public:
     virtual std::string typeToString() const;

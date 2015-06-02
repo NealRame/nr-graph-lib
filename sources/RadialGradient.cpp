@@ -34,7 +34,7 @@ RadialGradient::RadialGradient(const Point &startCenter, double startRadius, con
 }
 
 RadialGradient::RadialGradient(const RadialGradient &other)
-    : Gradient(other)
+    : gradient(other)
     , _start_circle_center(other.startCircleCenterPoint())
     , _start_circle_radius(other.startCircleRadius())
     , _end_circle_center(other.endCircleCenterPoint())
@@ -55,19 +55,19 @@ RadialGradient::RadialGradient(const void *ptr) {
 
     switch(::cairo_pattern_get_extend(pattern)) {
     case CAIRO_EXTEND_NONE:
-        setExtend(Extend::None);
+        set_extend(Extend::None);
         break;
 
     case CAIRO_EXTEND_PAD:
-        setExtend(Extend::Pad);
+        set_extend(Extend::Pad);
         break;
 
     case CAIRO_EXTEND_REFLECT:
-        setExtend(Extend::Reflect);
+        set_extend(Extend::Reflect);
         break;
 
     case CAIRO_EXTEND_REPEAT:
-        setExtend(Extend::Repeat);
+        set_extend(Extend::Repeat);
         break;
     }
 
@@ -76,7 +76,7 @@ RadialGradient::RadialGradient(const void *ptr) {
     for (auto i = 0; i < stop_count; ++i) {
         double offset, r, g, b, a;
         ::cairo_pattern_get_color_stop_rgba(pattern, i, &offset, &r, &g, &b, &a);
-        addColorStop(Stop{offset, color(color::RGB{r, g, b}, a)});
+        add_color_stop(Stop{offset, color(color::RGB{r, g, b}, a)});
     }
 }
 
@@ -90,20 +90,20 @@ std::shared_ptr<void> RadialGradient::pattern_() const {
     auto pattern = cairo_pattern_create_radial(c1.x(), c1.y(), r1, c2.x(), c2.y(), r2);
 
     switch (extend()) {
-    case Gradient::Extend::None:
+    case Extend::None:
         cairo_pattern_set_extend(pattern, CAIRO_EXTEND_NONE);
         break;
-    case Gradient::Extend::Pad:
+    case Extend::Pad:
         cairo_pattern_set_extend(pattern, CAIRO_EXTEND_PAD);
         break;
-    case Gradient::Extend::Reflect:
+    case Extend::Reflect:
         cairo_pattern_set_extend(pattern, CAIRO_EXTEND_REFLECT);
         break;
-    case Gradient::Extend::Repeat:
+    case Extend::Repeat:
         cairo_pattern_set_extend(pattern, CAIRO_EXTEND_REPEAT);
         break;
     }
-    for (const Gradient::Stop &stop : colorStops()) {
+    for (const auto &stop : color_stops()) {
         auto rgb = stop.color.rgb();
         ::cairo_pattern_add_color_stop_rgba(pattern, stop.offset, rgb.red, rgb.green, rgb.blue, stop.color.alpha());
     }
@@ -111,8 +111,8 @@ std::shared_ptr<void> RadialGradient::pattern_() const {
     return std::shared_ptr<void>(pattern, ::cairo_pattern_destroy);
 }
 
-RadialGradient & RadialGradient::operator=(const Gradient &gradient) {
-    Gradient::operator =(gradient);
+RadialGradient & RadialGradient::operator=(const gradient &gradient) {
+    gradient::operator=(gradient);
     return *this;
 }
 

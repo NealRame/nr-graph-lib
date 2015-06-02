@@ -1,11 +1,11 @@
 /*
- * GraphGradient.cpp
+ * Graphgradient.cpp
  *
  *  Created on: Jun 12, 2013
  *      Author: jux
  */
 
-#include <NRGraph/Gradient.h>
+#include <NRGraph/gradient.h>
 #include <NRGraph/Error.h>
 
 #include <algorithm>
@@ -17,64 +17,64 @@ namespace com {
 namespace nealrame {
 namespace graph {
 
-Gradient::Gradient() :
-    _extend(Gradient::Extend::Pad) {
+gradient::gradient() :
+    _extend(gradient::Extend::Pad) {
 }
 
-Gradient::Gradient(const Gradient &gradient) :
+gradient::gradient(const gradient &gradient) :
     _extend(gradient._extend),
     _stops(gradient._stops) {
 }
 
-Gradient::~Gradient() {
+gradient::~gradient() {
 }
 
-void Gradient::addColorStop(const Stop &stop){
+void gradient::add_color_stop(const Stop &stop){
     auto it = std::find_if(_stops.begin(), _stops.end(),
                             [stop](Stop s){ return stop.offset > s.offset; });
     _stops.insert(it, stop);
 }
 
-void Gradient::addColorStop(double offset, const color &c) {
-    addColorStop({offset, c});
+void gradient::add_color_stop(double offset, const color &c) {
+    add_color_stop({offset, c});
 }
 
-void Gradient::addColorStops(const std::vector<Stop> &stops) {
-    for (const Stop &s : stops) {
-        addColorStop(s);
+void gradient::add_color_stops(const std::vector<Stop> &stops) {
+    for (const auto &s : stops) {
+        add_color_stop(s);
     }
 }
 
-void Gradient::setColorStops(const std::vector<Stop> &stops) {
+void gradient::set_color_stops(const std::vector<Stop> &stops) {
     _stops.clear();
-    addColorStops(stops);
+    add_color_stops(stops);
 }
 
-Gradient::Stop Gradient::colorStop(unsigned int index) const {
+gradient::Stop gradient::color_stop(unsigned int index) const {
     if (index < _stops.size()) {
         return _stops.at(index);
     }
     throw error(error::InvalidColorStopIndex);
 }
 
-Gradient & Gradient::operator=(const Gradient &other) {
-    setExtend(other.extend());
-    setColorStops(colorStops());
+gradient & gradient::operator=(const gradient &other) {
+    set_extend(other.extend());
+    set_color_stops(color_stops());
     return *this;
 }
 
-bool Gradient::operator==(const Gradient &other) {
+bool gradient::operator==(const gradient &other) {
     return _extend == other._extend && _stops == other._stops;
 }
 
-std::string Gradient::typeToString() const {
-    return "Gradient";
+std::string gradient::type_to_string() const {
+    return "gradient";
 }
 
-std::string Gradient::toString() const {
+std::string gradient::to_string() const {
     std::ostringstream ss;
-    ss << typeToString() << "(";
-    for (int i = 0, count = colorStopCount(); i < count; ++i) {
+    ss << type_to_string() << "(";
+    for (auto i = 0u, count = color_stop_count(); i < count; ++i) {
         const Stop &stop(_stops.at(i));
         ss << (boost::format("%1% %2%%3%")
             % stop.color.to_string()
@@ -84,12 +84,12 @@ std::string Gradient::toString() const {
     return ss.str();
 }
 
-bool operator==(const Gradient::Stop &ls, const Gradient::Stop & rs) {
+bool operator==(const gradient::Stop &ls, const gradient::Stop & rs) {
     return ls.offset == rs.offset && ls.color == rs.color;
 }
 
-std::ostream & operator<<(std::ostream &out, const Gradient &gradient) {
-    return out << gradient.toString();
+std::ostream & operator<<(std::ostream &out, const gradient &gradient) {
+    return out << gradient.to_string();
 }
 
 } /* namespace graph */

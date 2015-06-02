@@ -1,4 +1,4 @@
-/// GraphGradient.h
+/// Graphgradient.h
 ///
 /// - Created on: Jun 12, 2013
 /// -     Author: jux
@@ -16,7 +16,7 @@ namespace nealrame {
 namespace graph {
 class brush;
 class Painter;
-class Gradient {
+class gradient {
     friend class brush;
     friend class Painter;
 public:
@@ -38,9 +38,9 @@ public:
     };
 
 public:
-    Gradient();
-    Gradient(const Gradient &);
-    virtual ~Gradient();
+    gradient();
+    gradient(const gradient &);
+    virtual ~gradient();
 
 public:
     virtual Type type() const = 0;
@@ -48,26 +48,26 @@ public:
     virtual Extend extend() const
     { return _extend; }
     
-    virtual void setExtend(Extend extend)
+    virtual void set_extend(Extend extend)
     { _extend = extend; }
 
 public:
-    virtual void addColorStop(double, const color &);
-    virtual void addColorStop(const Stop &);
-    virtual void addColorStops(const std::vector<Stop> &);
-    virtual void setColorStops(const std::vector<Stop> &);
+    virtual void add_color_stop(double, const color &);
+    virtual void add_color_stop(const Stop &);
+    virtual void add_color_stops(const std::vector<Stop> &);
+    virtual void set_color_stops(const std::vector<Stop> &);
 
-    virtual Stop colorStop(unsigned int index) const;
-    virtual unsigned int colorStopCount() const  { return _stops.size(); }
-    virtual std::vector<Stop> colorStops() const { return _stops; }
-
-public:
-    virtual Gradient & operator=(const Gradient &);
-    virtual bool operator==(const Gradient &);
+    virtual Stop color_stop(unsigned int index) const;
+    virtual unsigned int color_stop_count() const  { return _stops.size(); }
+    virtual std::vector<Stop> color_stops() const { return _stops; }
 
 public:
-    virtual std::string typeToString() const;
-    virtual std::string toString() const;
+    virtual gradient & operator=(const gradient &);
+    virtual bool operator==(const gradient &);
+
+public:
+    virtual std::string type_to_string() const;
+    virtual std::string to_string() const;
 
 protected:
     virtual std::shared_ptr<void> pattern_() const = 0;
@@ -77,7 +77,7 @@ protected:
     std::vector<Stop> _stops;
 };
 
-std::ostream & operator<<(std::ostream &, const Gradient &);
+std::ostream & operator<<(std::ostream &, const gradient &);
 } // namespace graph
 } // namespace nealrame
 } // namespace com

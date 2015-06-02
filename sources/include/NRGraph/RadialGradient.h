@@ -15,7 +15,7 @@ namespace graph {
 class brush;
 class Painter;
 class Point;
-class RadialGradient : public Gradient {
+class RadialGradient : public gradient {
     friend class brush;
     friend class Painter;
 
@@ -27,7 +27,7 @@ public:
 
 public:
     virtual Type type() const override
-    { return Gradient::Type::Radial; }
+    { return gradient::Type::Radial; }
 
 public:
     Point startCircleCenterPoint() const
@@ -51,7 +51,7 @@ public:
     { _end_circle_radius = radius; }
 
 public:
-    RadialGradient & operator=(const Gradient &);
+    RadialGradient & operator=(const gradient &);
 
 public:
     virtual std::string typeToString() const;

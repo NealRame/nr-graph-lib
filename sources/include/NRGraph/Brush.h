@@ -29,7 +29,7 @@ public:
     brush();
     brush(const color &);
     brush(const color::Name);
-    brush(const Gradient &);
+    brush(const gradient &);
     brush(const brush &);
     brush(brush &&);
     virtual ~brush();
@@ -37,7 +37,7 @@ public:
 public:
     brush & operator=(const color &);
     brush & operator=(const color::Name &);
-    brush & operator=(const Gradient &);
+    brush & operator=(const gradient &);
     brush & operator=(const brush &);
     brush & operator=(brush &&);
 
@@ -56,9 +56,9 @@ public:
     const class color & color() const;
     void set_color(const class color &);
 
-    Gradient & gradient();
-    const Gradient & gradient() const;
-    void set_gradient(const Gradient &);
+    class gradient & gradient();
+    const class gradient & gradient() const;
+    void set_gradient(const class gradient &);
 
 public:
     std::string to_string() const;
