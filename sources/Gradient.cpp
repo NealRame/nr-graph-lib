@@ -77,7 +77,7 @@ std::string Gradient::toString() const {
     for (int i = 0, count = colorStopCount(); i < count; ++i) {
         const Stop &stop(_stops.at(i));
         ss << (boost::format("%1% %2%%3%")
-            % stop.color.toString()
+            % stop.color.to_string()
             % stop.offset
             % ((i < count - 1) ? ", ":")")).str();
     }

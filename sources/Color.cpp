@@ -397,7 +397,7 @@ bool color::operator==(const color &other) const {
     return false;
 }
 
-color color::converTo(Model model) const {
+color color::conver_to(Model model) const {
     switch (model) {
     case Cmyk:
         switch (_model) {
@@ -445,7 +445,7 @@ double color::alpha() const {
     return _alpha;
 }
 
-void color::setAlpha(double alpha) {
+void color::set_alpha(double alpha) {
     _alpha = alpha;
 }
 
@@ -453,38 +453,38 @@ color::Model color::model() const {
     return _model;
 }
 
-void color::setModel(Model model) {
-    *this = converTo(model);
+void color::set_model(Model model) {
+    *this = conver_to(model);
 }
 
 color::CMYK color::cmyk() const {
-    return _model == Cmyk ? _cmyk : converTo(Cmyk).cmyk();
+    return _model == Cmyk ? _cmyk : conver_to(Cmyk).cmyk();
 }
 
-void color::setCmyk(const CMYK &cmyk) {
+void color::set_cmyk(const CMYK &cmyk) {
 }
 
 color::RGB color::rgb() const {
-    return _model == Rgb  ? _rgb : converTo(Rgb).rgb();
+    return _model == Rgb  ? _rgb : conver_to(Rgb).rgb();
 }
 
-void color::setRgb(const RGB &rgb) {
+void color::set_rgb(const RGB &rgb) {
     *this = color(rgb, _alpha);
 }
 
 color::HSL color::hsl() const {
-    return _model == Hsl ? _hsl : converTo(Hsl).hsl();
+    return _model == Hsl ? _hsl : conver_to(Hsl).hsl();
 }
 
-void color::setHsl(const HSL &hsl) {
+void color::set_hsl(const HSL &hsl) {
     *this = color(hsl, _alpha);
 }
 
 color::HSV color::hsv() const {
-    return _model == Hsv ? _hsv : converTo(Hsv).hsv();
+    return _model == Hsv ? _hsv : conver_to(Hsv).hsv();
 }
 
-void color::setHsv(const HSL &hsv) {
+void color::set_hsv(const HSL &hsv) {
     *this = color(hsv, _alpha);
 }
 
@@ -494,7 +494,7 @@ color color::lighter(double factor) const {
     }
     auto c = hsv();
     c.value = std::min<double>(c.value*factor, 1);
-    return color(c, _alpha).converTo(_model);
+    return color(c, _alpha).conver_to(_model);
 }
 
 color color::darker(double factor) const {
@@ -503,10 +503,10 @@ color color::darker(double factor) const {
     }
     auto c = hsv();
     c.value = std::min<double>(c.value/factor, 1);
-    return color(c, _alpha).converTo(_model);
+    return color(c, _alpha).conver_to(_model);
 }
 
-std::string color::toHTMLString() const {
+std::string color::to_HTML_string() const {
     if (_model == Rgb) {
         std::string res = 
             (boost::format("#%1%%2%%3%")
@@ -522,10 +522,10 @@ std::string color::toHTMLString() const {
         return boost::regex_match(res, m, re) ?
             (boost::format("#%1%%2%%3%") % m[1].str() % m[2].str() % m[3].str()).str() : res;
     }
-    return converTo(Rgb).toHTMLString();
+    return conver_to(Rgb).to_HTML_string();
 }
 
-std::string color::toString() const {
+std::string color::to_string() const {
     if (_alpha == 1) {
         switch (_model) {
         case Cmyk:
@@ -547,7 +547,7 @@ std::string color::toString() const {
                     % _hsv.value).str();
 
         case Rgb:
-            return toHTMLString();
+            return to_HTML_string();
 
         default:
             return "invalid color";
@@ -597,7 +597,7 @@ namespace nealrame {
 namespace graph {
 
 std::ostream & operator<<(std::ostream &out, const color &color)  {
-    return out << color.toString();
+    return out << color.to_string();
 }
 
 } /* namespace graph */

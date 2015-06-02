@@ -187,7 +187,7 @@ void brush::set_gradient(const graph::Gradient& gradient) {
 std::string brush::to_string() const {
     switch (type()) {
     case type::Solid:
-        return color().toString();
+        return color().to_string();
 
     case type::Gradient:
         return gradient().toString();

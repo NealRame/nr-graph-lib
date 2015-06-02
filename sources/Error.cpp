@@ -9,7 +9,7 @@
 
 using namespace com::nealrame::graph;
 
-std::string error::statusToString(enum error::status status) {
+std::string error::status_to_string(enum error::status status) {
     switch (status) {
     case error::status::BrushTypeMismatch:
         return "graph::BrushTypeMismatch";

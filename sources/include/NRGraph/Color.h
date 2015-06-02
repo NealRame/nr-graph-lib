@@ -80,34 +80,34 @@ public:
     bool operator==(const color &other) const;
 
 public:
-    color converTo(Model) const;
+    color conver_to(Model) const;
 
 public:
     double alpha() const;
-    void setAlpha(double);
+    void set_alpha(double);
 
     Model model() const;
-    void setModel(Model);
+    void set_model(Model);
 
     CMYK cmyk() const;
-    void setCmyk(const CMYK &);
+    void set_cmyk(const CMYK &);
 
     RGB rgb() const;
-    void setRgb(const RGB &);
+    void set_rgb(const RGB &);
 
     HSL hsl() const;
-    void setHsl(const HSL &);
+    void set_hsl(const HSL &);
 
     HSV hsv() const;
-    void setHsv(const HSL &);
+    void set_hsv(const HSL &);
 
 public:
     color lighter(double) const;
     color darker(double) const;
 
 public:
-    std::string toHTMLString() const;
-    std::string toString() const;
+    std::string to_HTML_string() const;
+    std::string to_string() const;
 
 private:
     color(const void *);

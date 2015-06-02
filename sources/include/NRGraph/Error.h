@@ -23,7 +23,7 @@ public:
     };
 
 public:
-    static std::string statusToString(error::status);
+    static std::string status_to_string(error::status);
 
 public:
     static void raise(status, std::string message = "");
