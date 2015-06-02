@@ -7,16 +7,16 @@
 namespace com {
 namespace nealrame {
 namespace graph {
-class Pen {
+class pen {
 public:
-    Pen();
-    virtual ~Pen();
+    pen();
+    virtual ~pen();
 
 public:
     double width() const
     { return _width;  }
     
-    void setWidth(double width)
+    void set_width(double width)
     { _width = width; }
 
 private:

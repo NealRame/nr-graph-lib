@@ -37,7 +37,7 @@ namespace {
     };
 }
 
-struct Painter::impl {
+struct painter::impl {
     Surface &surface;
     std::unique_ptr<cairo_t, ::context_deleter> cairo_context;
 
@@ -52,7 +52,7 @@ struct Painter::impl {
         }
     }
 
-    void setAntialiasing(Antialias antialias) {
+    void set_antialiasing(Antialias antialias) {
         auto context = cairo_context.get();
         switch (antialias) {
         case Antialias::None:
@@ -79,8 +79,8 @@ struct Painter::impl {
 
     void clear(const color &c) {
         save();
-        setBrush(c);
-        fillRectangle(Rectangle(Point(0, 0), surface.size()));
+        set_brush(c);
+        fill_rectangle(Rectangle(Point(0, 0), surface.size()));
         restore();
     }
 
@@ -88,29 +88,29 @@ struct Painter::impl {
         return (class brush)(::cairo_get_source(cairo_context.get()));
     }
 
-    void setBrush(const class brush &br) {
+    void set_brush(const class brush &br) {
         auto pattern = br.pattern_();
         ::cairo_set_source(cairo_context.get(), reinterpret_cast<cairo_pattern_t *>(pattern.get()));
     }
 
-    Pen pen() const {
-        Pen pen;
-        pen.setWidth(::cairo_get_line_width(cairo_context.get()));
+    class pen pen() const {
+        class pen pen;
+        pen.set_width(::cairo_get_line_width(cairo_context.get()));
         return pen;
     }
 
-    void setPen(const Pen &pen) {
+    void set_pen(const class pen &pen) {
         ::cairo_set_line_width(cairo_context.get(), pen.width());
     }
 
-    void drawLine(double x0, double y0, double x1, double y1) {
+    void draw_line(double x0, double y0, double x1, double y1) {
         auto cr = cairo_context.get();
         ::cairo_move_to(cr, x0, y0);
         ::cairo_line_to(cr, x1, y1);
         ::cairo_stroke(cr);
     }
 
-    void drawRectangle(const Rectangle &rectangle) {
+    void draw_rectangle(const Rectangle &rectangle) {
         auto cr = cairo_context.get();
         if (rectangle.isValid()) {
             const auto point = rectangle.topLeft();
@@ -120,7 +120,7 @@ struct Painter::impl {
         }
     }
 
-    void fillRectangle(const Rectangle &rectangle) {
+    void fill_rectangle(const Rectangle &rectangle) {
         auto cr = cairo_context.get();
         if (rectangle.isValid()) {
             const auto point = rectangle.topLeft();
@@ -131,64 +131,64 @@ struct Painter::impl {
     }
 };
 
-Painter::Painter(Surface &surface)
+painter::painter(Surface &surface)
     : d(new impl(surface)) {
 }
 
-Painter::~Painter() {
+painter::~painter() {
 }
 
-Surface & Painter::surface()
+Surface & painter::surface()
 { return d->surface; }
 
-void Painter::setAntialiasing(Antialias antialias) {
-    d->setAntialiasing(antialias);
+void painter::set_antialiasing(Antialias antialias) {
+    d->set_antialiasing(antialias);
 }
 
-void Painter::clear(const color &c) {
+void painter::clear(const color &c) {
     d->clear(c);
 }
 
-void Painter::save() {
+void painter::save() {
     d->save();
 }
 
-void Painter::restore() {
+void painter::restore() {
     d->restore();
 }
 
-class brush Painter::brush() const {
+class brush painter::brush() const {
     return d->brush();
 }
 
-void Painter::setBrush(const class brush &br) {
-    d->setBrush(br);
+void painter::set_brush(const class brush &br) {
+    d->set_brush(br);
 }
 
-Pen Painter::pen() const {
+class pen painter::pen() const {
     return d->pen();
 }
 
-void Painter::setPen(const Pen &pen) {
-    d->setPen(pen);
+void painter::set_pen(const class pen &pen) {
+    d->set_pen(pen);
 }
 
-void Painter::drawLine(double x0, double y0, double x1, double y1) {
-    d->drawLine(x0, y0, x1, y1);
+void painter::draw_line(double x0, double y0, double x1, double y1) {
+    d->draw_line(x0, y0, x1, y1);
 }
 
-void Painter::drawLine(const Point &a, const Point &b) {
-    drawLine(a.x(), a.y(), b.x(), b.y());
+void painter::draw_line(const Point &a, const Point &b) {
+    draw_line(a.x(), a.y(), b.x(), b.y());
 }
 
-void Painter::drawLine(const class line &line) {
-    drawLine(line.p1(), line.p2());
+void painter::draw_line(const class line &line) {
+    draw_line(line.p1(), line.p2());
 }
 
-void Painter::drawRectangle(const Rectangle &rectangle) {
-    d->drawRectangle(rectangle);
+void painter::draw_rectangle(const Rectangle &rectangle) {
+    d->draw_rectangle(rectangle);
 }
 
-void Painter::fillRectangle(const Rectangle &rectangle) {
-    d->fillRectangle(rectangle);
+void painter::fill_rectangle(const Rectangle &rectangle) {
+    d->fill_rectangle(rectangle);
 }

@@ -14,10 +14,10 @@ namespace graph {
 class brush;
 class color;
 class line;
-class Pen;
+class pen;
 class Rectangle;
 class Surface;
-class Painter {
+class painter {
 public:
     enum class Antialias {
         None,
@@ -26,16 +26,16 @@ public:
     };
 
 public:
-    Painter(Surface &);
-    virtual ~Painter();
+    painter(Surface &);
+    virtual ~painter();
 
 public:
     Surface & surface();
     const Surface & surface() const
-    { return const_cast<Painter *>(this)->surface(); }
+    { return const_cast<painter *>(this)->surface(); }
 
 public:
-    void setAntialiasing(Antialias);
+    void set_antialiasing(Antialias);
 
 public:
     void clear(const color &);
@@ -46,17 +46,17 @@ public:
 
 public:
     class brush brush() const;
-    void setBrush(const class brush &);
+    void set_brush(const class brush &);
 
-    Pen pen() const;
-    void setPen(const Pen &);
+    class pen pen() const;
+    void set_pen(const class pen &);
 
 public:
-    void drawLine(double x0, double y0, double x1, double y1);
-    void drawLine(const Point &, const Point &);
-    void drawLine(const line &);
-    void drawRectangle(const Rectangle &);
-    void fillRectangle(const Rectangle &);
+    void draw_line(double x0, double y0, double x1, double y1);
+    void draw_line(const Point &, const Point &);
+    void draw_line(const line &);
+    void draw_rectangle(const Rectangle &);
+    void fill_rectangle(const Rectangle &);
 
 private:
     struct impl;

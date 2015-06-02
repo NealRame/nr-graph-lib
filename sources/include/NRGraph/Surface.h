@@ -12,9 +12,9 @@
 namespace com {
 namespace nealrame {
 namespace graph {
-class Painter;
+class painter;
 class Surface {
-    friend class Painter;
+    friend class painter;
     
 public:
     enum class Backend {

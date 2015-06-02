@@ -14,8 +14,9 @@
 namespace com {
 namespace nealrame {
 namespace graph {
+class painter;
 class brush {
-    friend class Painter;
+    friend class painter;
 
 public:
     enum class type {

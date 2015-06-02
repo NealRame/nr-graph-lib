@@ -9,9 +9,9 @@
 
 using namespace com::nealrame::graph;
 
-Pen::Pen() {
-    setWidth(1);
+pen::pen() {
+    set_width(1);
 }
 
-Pen::~Pen() {
+pen::~pen() {
 }
