@@ -46,7 +46,7 @@ public:
 
 public:
     Type type() const {
-        return _type;
+        return type_;
     }
 
 public:
@@ -66,10 +66,10 @@ private:
     std::shared_ptr<void> pattern_() const;
 
 private:
-    Type _type;
+    Type type_;
     union {
-        Color _color;
-        Gradient *_gradient;
+        Color color_;
+        Gradient *gradient_;
     };
 };
 

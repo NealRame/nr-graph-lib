@@ -22,7 +22,7 @@ namespace nealrame {
 namespace graph {
 
 Brush::Brush()
-    : _type(Type::Null) {
+    : type_(Type::Null) {
 }
 
 Brush::Brush(const Color &color)
@@ -71,7 +71,7 @@ Brush::Brush(const void *ptr) {
 
 Brush::~Brush() {
     if (type() == Type::Gradient) {
-        delete _gradient;
+        delete gradient_;
     }
 }
 
@@ -108,7 +108,7 @@ Brush & Brush::operator=(const Gradient &gradient) {
 Brush & Brush::operator=(const Brush &brush) {
     switch (brush.type()){
     case Type::Null:
-        _type = Type::Null;
+        type_ = Type::Null;
         break;
 
     case Type::Solid:
@@ -130,7 +130,7 @@ Color &  Brush::color() {
     if (type() != Type::Solid) {
         Error::raise(Error::BrushTypeMismatch);
     }
-    return _color;
+    return color_;
 }
 
 const Color & Brush::color() const {
@@ -139,17 +139,17 @@ const Color & Brush::color() const {
 
 void Brush::setColor(const Color &color) {
     if (type() == Type::Gradient) {
-        delete _gradient;
+        delete gradient_;
     }
-    _type = Type::Solid;
-    _color = color;
+    type_ = Type::Solid;
+    color_ = color;
 }
 
 Gradient & Brush::gradient() {
     if (type() != Type::Gradient) {
         Error::raise(Error::BrushTypeMismatch);
     }
-    return *_gradient;
+    return *gradient_;
 }
 
 const Gradient & Brush::gradient() const {
@@ -158,15 +158,15 @@ const Gradient & Brush::gradient() const {
 
 void Brush::setGradient(const graph::Gradient& gradient) {
     if (type() == Type::Gradient) {
-        delete _gradient;
+        delete gradient_;
     }
-    _type = Type::Gradient;
+    type_ = Type::Gradient;
     switch (gradient.type()) {
     case Gradient::Type::Linear:
-        _gradient = new LinearGradient(reinterpret_cast<const LinearGradient &>(gradient));
+        gradient_ = new LinearGradient(reinterpret_cast<const LinearGradient &>(gradient));
         break;
     case Gradient::Type::Radial:
-        _gradient =  new RadialGradient(reinterpret_cast<const RadialGradient &>(gradient));
+        gradient_ =  new RadialGradient(reinterpret_cast<const RadialGradient &>(gradient));
         break;
     }
 }
