@@ -181,7 +181,7 @@ void Painter::drawLine(const Point &a, const Point &b) {
     drawLine(a.x(), a.y(), b.x(), b.y());
 }
 
-void Painter::drawLine(const Line &line) {
+void Painter::drawLine(const class line &line) {
     drawLine(line.p1(), line.p2());
 }
 

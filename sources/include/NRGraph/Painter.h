@@ -13,7 +13,7 @@ namespace nealrame {
 namespace graph {
 class brush;
 class color;
-class Line;
+class line;
 class Pen;
 class Rectangle;
 class Surface;
@@ -54,7 +54,7 @@ public:
 public:
     void drawLine(double x0, double y0, double x1, double y1);
     void drawLine(const Point &, const Point &);
-    void drawLine(const Line &);
+    void drawLine(const line &);
     void drawRectangle(const Rectangle &);
     void fillRectangle(const Rectangle &);
 
