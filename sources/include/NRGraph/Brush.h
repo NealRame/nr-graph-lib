@@ -29,7 +29,7 @@ public:
 public:
     brush();
     brush(const color &);
-    brush(const color::Name);
+    brush(const color::name);
     brush(const gradient &);
     brush(const brush &);
     brush(brush &&);
@@ -37,7 +37,7 @@ public:
 
 public:
     brush & operator=(const color &);
-    brush & operator=(const color::Name &);
+    brush & operator=(const color::name &);
     brush & operator=(const gradient &);
     brush & operator=(const brush &);
     brush & operator=(brush &&);

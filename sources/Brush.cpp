@@ -36,7 +36,7 @@ brush::brush(const class color &c)
     set_color(c);
 }
 
-brush::brush(const color::Name name)
+brush::brush(const color::name name)
     : brush() {
     set_color(name);
 }
@@ -102,7 +102,7 @@ brush & brush::operator=(const class color &c) {
     return *this;
 }
 
-brush & brush::operator=(const color::Name &name) {
+brush & brush::operator=(const color::name &name) {
     set_color(name);
     return *this;
 }

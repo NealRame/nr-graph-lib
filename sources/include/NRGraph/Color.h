@@ -20,7 +20,7 @@ public:
         Cmyk, Hsl, Hsv, Rgb, Invalid
     };
 
-    enum Name {
+    enum name {
         Black,
         White,
         Red,
@@ -66,7 +66,7 @@ public:
 
 public:
     color();
-    color(Name);
+    color(name);
     color(const CMYK &, double alpha=1);
     color(const RGB  &, double alpha=1);
     color(const HSL  &, double alpha=1);

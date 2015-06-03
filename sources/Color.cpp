@@ -256,7 +256,7 @@ color::color()
     , _alpha(1) {
 }
 
-color::color(Name name) :
+color::color(enum name name) :
     _model(Rgb),
     _alpha(1) {
     switch(name) {
