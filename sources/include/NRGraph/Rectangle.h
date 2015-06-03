@@ -12,13 +12,12 @@
 namespace com {
 namespace nealrame {
 namespace graph {
-class Point;
 class Size;
 class Rectangle {
 public:
     Rectangle();
-    Rectangle(const Point &topLeft, const Point &bottomRight);
-    Rectangle(const Point &topLeft, const Size &size);
+    Rectangle(const point &topLeft, const point &bottomRight);
+    Rectangle(const point &topLeft, const Size &size);
     virtual ~Rectangle();
 
 public:
@@ -26,7 +25,7 @@ public:
      * Returns true if and only if this rectangle contains the given
      * point.
      */
-    bool contains(const Point &) const;
+    bool contains(const point &) const;
 
     /**
      * Returns true if and only if this rectangle points are equals.
@@ -73,28 +72,28 @@ public:
     /**
      * Return the top left corner point of this rectangle.
      */
-    Point topLeft() const { return _top_left; }
+    point topLeft() const { return _top_left; }
 
     /**
      * Return the top right corner point of this rectangle.
      */
-    Point topRight() const;
+    point topRight() const;
 
     /**
      * Return the bottom right corner point of this rectangle.
      */
-    Point bottomRight() const { return _bottom_right; }
+    point bottomRight() const { return _bottom_right; }
 
     /**
      * Return the bottom left corner point of this rectangle.
      */
-    Point bottomLeft() const;
+    point bottomLeft() const;
 
     /**
      * Return a vector of this rectangle point in that order:
      *   top left > top right > bottom right > bottom left.
      */
-    std::vector<Point> points() const;
+    std::vector<point> points() const;
 
 public:
     /**
@@ -117,8 +116,8 @@ public:
     Rectangle operator&(const Rectangle &) const;
 
 private:
-    Point _top_left;
-    Point _bottom_right;
+    point _top_left;
+    point _bottom_right;
 };
 
 } // namespace graph

@@ -4,7 +4,7 @@
 /// -     Author: jux
 #pragma once
 
-#include <NRGraph/Point.h>
+#include <NRGraph/point.h>
 
 #include <memory>
 
@@ -53,7 +53,7 @@ public:
 
 public:
     void draw_line(double x0, double y0, double x1, double y1);
-    void draw_line(const Point &, const Point &);
+    void draw_line(const point &, const point &);
     void draw_line(const line &);
     void draw_rectangle(const Rectangle &);
     void fill_rectangle(const Rectangle &);

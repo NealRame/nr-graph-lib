@@ -7,7 +7,7 @@
 
 #include <NRGraph/RadialGradient.h>
 #include <NRGraph/Color.h>
-#include <NRGraph/Point.h>
+#include <NRGraph/point.h>
 
 extern "C" {
 #   include <cairo.h>
@@ -19,14 +19,14 @@ extern "C" {
 
 using namespace com::nealrame::graph;
 
-radial_gradient::radial_gradient(const Point &center, double radius)
+radial_gradient::radial_gradient(const point &center, double radius)
     : _start_circle_center(center)
     , _start_circle_radius(radius)
     , _end_circle_center(center)
     , _end_circle_radius(radius) {
 }
 
-radial_gradient::radial_gradient(const Point &startCenter, double startRadius, const Point &endCenter, double endRadius)
+radial_gradient::radial_gradient(const point &startCenter, double startRadius, const point &endCenter, double endRadius)
     : _start_circle_center(startCenter)
     , _start_circle_radius(startRadius)
     , _end_circle_center(endCenter)
@@ -48,9 +48,9 @@ radial_gradient::radial_gradient(const void *ptr) {
 
     double x1, y1, x2, y2, r1, r2;
     ::cairo_pattern_get_radial_circles(pattern, &x1, &y1, &r1, &x2, &y2, &r2);
-    set_start_circle_center_point(Point{x1, y1});
+    set_start_circle_center_point(point{x1, y1});
     set_start_circle_radius(r1);
-    set_end_circle_center_point(Point{x2, y2});
+    set_end_circle_center_point(point{x2, y2});
     set_end_circle_radius(r2);
 
     switch(::cairo_pattern_get_extend(pattern)) {

@@ -80,7 +80,7 @@ struct painter::impl {
     void clear(const color &c) {
         save();
         set_brush(c);
-        fill_rectangle(Rectangle(Point(0, 0), surface.size()));
+        fill_rectangle(Rectangle(point(0, 0), surface.size()));
         restore();
     }
 
@@ -177,7 +177,7 @@ void painter::draw_line(double x0, double y0, double x1, double y1) {
     d->draw_line(x0, y0, x1, y1);
 }
 
-void painter::draw_line(const Point &a, const Point &b) {
+void painter::draw_line(const point &a, const point &b) {
     draw_line(a.x(), a.y(), b.x(), b.y());
 }
 

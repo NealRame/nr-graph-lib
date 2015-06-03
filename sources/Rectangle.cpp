@@ -15,12 +15,12 @@ using namespace com::nealrame::graph;
 Rectangle::Rectangle() {
 }
 
-Rectangle::Rectangle(const Point &topLeft, const Point &bottomRight)
+Rectangle::Rectangle(const point &topLeft, const point &bottomRight)
     : _top_left(topLeft)
     , _bottom_right(bottomRight) {
 }
 
-Rectangle::Rectangle(const Point &topLeft, const Size &size)
+Rectangle::Rectangle(const point &topLeft, const Size &size)
     : _top_left(topLeft)
     , _bottom_right(_top_left.translated(size.width(), size.height())) {
 }
@@ -28,7 +28,7 @@ Rectangle::Rectangle(const Point &topLeft, const Size &size)
 Rectangle::~Rectangle() {
 }
 
-bool Rectangle::contains(const Point &point) const {
+bool Rectangle::contains(const point &point) const {
     double x = point.x(), y = point.y();
     return x >= left() && x <= right() && y >= top() && y <= bottom();
 }
@@ -47,7 +47,7 @@ void Rectangle::normalize() {
             max_x = fmax(max_x, p.x());
             max_y = fmax(max_y, p.y());
         }
-        *this = Rectangle(Point(min_x, min_y), Point(max_x, max_y));
+        *this = Rectangle(point(min_x, min_y), point(max_x, max_y));
     }
 }
 
@@ -59,7 +59,7 @@ void Rectangle::intersect(const Rectangle &other) {
 
     *this = (max_left > min_right || max_top > min_bottom) ?
             Rectangle() :
-            Rectangle(Point(max_left, max_top), Point(min_right, min_bottom));
+            Rectangle(point(max_left, max_top), point(min_right, min_bottom));
 }
 
 void Rectangle::unit(const Rectangle &other) {
@@ -68,7 +68,7 @@ void Rectangle::unit(const Rectangle &other) {
     double max_bottom = fmin(bottom(), other.bottom());
     double max_right  = fmax(right(), other.right());
 
-    *this = Rectangle(Point(min_left, min_top), Point(max_right, max_bottom));
+    *this = Rectangle(point(min_left, min_top), point(max_right, max_bottom));
 }
 
 Size Rectangle::size() const {
@@ -76,16 +76,16 @@ Size Rectangle::size() const {
             _bottom_right.y() - _top_left.y());
 }
 
-Point Rectangle::topRight() const {
-    return Point(_bottom_right.x(), _top_left.y());
+point Rectangle::topRight() const {
+    return point(_bottom_right.x(), _top_left.y());
 }
 
-Point Rectangle::bottomLeft() const {
-    return Point(_top_left.x(), _bottom_right.y());
+point Rectangle::bottomLeft() const {
+    return point(_top_left.x(), _bottom_right.y());
 }
 
-std::vector<Point> Rectangle::points() const {
-    std::vector<Point> v;
+std::vector<point> Rectangle::points() const {
+    std::vector<point> v;
     v.push_back(topLeft());
     v.push_back(topRight());
     v.push_back(bottomRight());

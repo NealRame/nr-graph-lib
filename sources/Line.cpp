@@ -14,14 +14,14 @@ namespace graph {
 line::line() {
 }
 
-line::line(const Point &p1, const Point &p2)
+line::line(const point &p1, const point &p2)
     : _p1(p1)
     , _p2(p2) {
 }
 
 line::line(double x1, double y1, double x2, double y2)
-    : _p1(Point(x1, y1))
-    , _p2(Point(x2, y2)) {
+    : _p1(point(x1, y1))
+    , _p2(point(x2, y2)) {
 }
 
 line::~line() {
@@ -35,7 +35,7 @@ double line::dy() const {
     return _p2.y() - _p1.y();
 }
 
-void line::translate(const Point &offset) {
+void line::translate(const point &offset) {
     _p1 += offset;
     _p2 += offset;
 }
@@ -45,7 +45,7 @@ void line::translate(double dx, double dy) {
     _p1.y() += dy; _p2.y() += dy;
 }
 
-line line::translated(const Point &offset) const {
+line line::translated(const point &offset) const {
     line l(*this);
     l.translate(offset);
     return l;

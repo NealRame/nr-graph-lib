@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include <NRGraph/Point.h>
+#include <NRGraph/point.h>
 #include <NRGraph/Gradient.h>
 
 #include <memory>
@@ -21,7 +21,7 @@ class linear_gradient : public gradient {
 
 public:
     linear_gradient();
-    linear_gradient(const Point &start, const Point &end);
+    linear_gradient(const point &start, const point &end);
     linear_gradient(const linear_gradient &other);
     virtual ~linear_gradient();
 
@@ -30,16 +30,16 @@ public:
     { return Type::Linear; }
 
 public:
-    Point start_point() const
+    point start_point() const
     { return _start_point; }
     
-    void set_start_point(const Point &point)
+    void set_start_point(const point &point)
     { _start_point = point; }
     
-    Point end_point() const
+    point end_point() const
     { return _end_point; }
     
-    void set_end_point(const Point &point)
+    void set_end_point(const point &point)
     { _end_point = point; }
 
 public:
@@ -55,8 +55,8 @@ private:
     linear_gradient(const void *);
 
 private:
-    Point _start_point;
-    Point _end_point;
+    point _start_point;
+    point _end_point;
 };
 } // namespace graph
 } // namespace nealrame

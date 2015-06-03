@@ -1,4 +1,4 @@
-/// Point.h
+/// point.h
 ///
 /// - Created on: Jun 9, 2013
 /// -     Author: jux
@@ -7,17 +7,17 @@
 namespace com {
 namespace nealrame {
 namespace graph {
-class Point {
+class point {
 public:
-    Point()
+    point()
         : _x(0)
         , _y(0) {
     }
-    Point(double x, double y)
+    point(double x, double y)
         : _x(x)
         , _y(y) {
     }
-    virtual ~Point() {
+    virtual ~point() {
     }
 
 public:
@@ -34,42 +34,42 @@ public:
     { return _y; }
 
 public:
-    Point operator+(const Point &point) const {
-        return Point(_x + point._x, _y + point._y);
+    point operator+(const point &rhs) const {
+        return point(_x + rhs._x, _y + rhs._y);
     }
 
-    Point & operator+=(const Point &point) {
-        _x += point._x;
-        _y += point._y;
+    point & operator+=(const point &rhs) {
+        _x += rhs._x;
+        _y += rhs._y;
         return *this;
     }
 
-    Point operator-(const Point &point) const {
-        return Point(_x - point._x, _y - point._y);
+    point operator-(const point &rhs) const {
+        return point(_x - rhs._x, _y - rhs._y);
     }
 
-    Point & operator-=(const Point &point) {
-        _x -= point._x;
-        _y -= point._y;
+    point & operator-=(const point &rhs) {
+        _x -= rhs._x;
+        _y -= rhs._y;
         return *this;
     }
 
-    bool operator==(const Point &point) const {
-        return this->_x == point._x && this->_y == point._y;
+    bool operator==(const point &rhs) const {
+        return this->_x == rhs._x && this->_y == rhs._y;
     }
 
-    bool operator!=(const Point &point) const {
-        return !(*this == point);
+    bool operator!=(const point &rhs) const {
+        return !(*this == rhs);
     }
 
 public:
     void translate(double dx, double dy) {
-        *this += Point(dx, dy);
+        *this += point(dx, dy);
     }
 
-    Point translated(double dx, double dy) const {
-        Point p(*this);
-        p += Point(dx, dy);
+    point translated(double dx, double dy) const {
+        point p(*this);
+        p += point(dx, dy);
         return p;
     }
 private:

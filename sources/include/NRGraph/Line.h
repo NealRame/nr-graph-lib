@@ -9,11 +9,10 @@
 namespace com {
 namespace nealrame {
 namespace graph {
-class Point;
 class line {
 public:
     line();
-    line(const Point &p1, const Point &p2);
+    line(const point &p1, const point &p2);
     line(double x1, double y1, double x2, double y2);
     virtual ~line();
 
@@ -22,24 +21,24 @@ public:
     { return _p1 == _p2; }
 
 public:
-    Point & p1()
+    point & p1()
     { return _p1; }
     
-    const Point & p1() const
+    const point & p1() const
     { return _p1; }
     
-    Point & p2()
+    point & p2()
     { return _p2; }
     
-    const Point & p2() const
+    const point & p2() const
     { return _p2; }
 
     double dx() const;
     double dy() const;
 
-    void translate(const Point &offset);
+    void translate(const point &offset);
     void translate(double dx, double dy);
-    line translated(const Point &offset) const;
+    line translated(const point &offset) const;
     line translated(double dx, double dy) const;
 
 public:
@@ -51,8 +50,8 @@ public:
     }
 
 private:
-    Point _p1;
-    Point _p2;
+    point _p1;
+    point _p2;
 };
 } // namespace graph
 } // namespace nealrame

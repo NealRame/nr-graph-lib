@@ -7,7 +7,7 @@
 
 #include <NRGraph/LinearGradient.h>
 #include <NRGraph/Color.h>
-#include <NRGraph/Point.h>
+#include <NRGraph/point.h>
 
 extern "C" {
 #   include <cairo.h>
@@ -22,7 +22,7 @@ using namespace com::nealrame::graph;
 linear_gradient::linear_gradient() {
 }
 
-linear_gradient::linear_gradient(const Point &start, const Point &end)
+linear_gradient::linear_gradient(const point &start, const point &end)
     : _start_point(start)
     , _end_point(end) {
 }
@@ -40,8 +40,8 @@ linear_gradient::linear_gradient(const void *ptr) {
 
     double x1, y1, x2, y2;
     ::cairo_pattern_get_linear_points(pattern, &x1, &y1, &x2, &y2);
-    set_start_point(Point{x1, y1});
-    set_end_point(Point{x2, y2});
+    set_start_point(point{x1, y1});
+    set_end_point(point{x2, y2});
 
     switch(::cairo_pattern_get_extend(pattern)) {
     case CAIRO_EXTEND_NONE:
