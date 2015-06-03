@@ -17,7 +17,7 @@ class surface {
     friend class painter;
     
 public:
-    enum class Backend {
+    enum class backend {
         Image,
         Pdf,
         Svg,
@@ -25,7 +25,7 @@ public:
     };
 
 public:
-    surface(size, Backend backend);
+    surface(size, enum backend backend);
     virtual ~surface();
 
 public:

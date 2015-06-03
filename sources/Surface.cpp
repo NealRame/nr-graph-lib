@@ -30,9 +30,9 @@ namespace {
 struct surface::impl {
     std::unique_ptr<cairo_surface_t, ::surface_deleter> cairo_surface;
 
-    impl(class size size, Backend backend) {
+    impl(class size size, enum backend backend) {
         switch (backend) {
-            case Backend::Image:
+            case backend::Image:
                 cairo_surface.reset(
                     cairo_image_surface_create(
                         CAIRO_FORMAT_ARGB32, size.width(), size.height()
@@ -83,7 +83,7 @@ struct surface::impl {
     }
 };
 
-surface::surface(class size size, Backend backend) 
+surface::surface(class size size, enum backend backend) 
     : d(new impl(size, backend)) {
 }
 
