@@ -18,7 +18,7 @@ namespace nealrame {
 namespace graph {
 
 gradient::gradient() :
-    _extend(gradient::Extend::Pad) {
+    _extend(gradient::extend::Pad) {
 }
 
 gradient::gradient(const gradient &gradient) :

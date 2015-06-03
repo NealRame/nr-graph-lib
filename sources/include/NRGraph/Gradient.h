@@ -25,7 +25,7 @@ public:
         Radial
     };
 
-    enum class Extend {
+    enum class extend {
         None,
         Pad,
         Repeat,
@@ -45,10 +45,10 @@ public:
 public:
     virtual enum type type() const = 0;
     
-    virtual Extend extend() const
+    virtual enum extend extend() const
     { return _extend; }
     
-    virtual void set_extend(Extend extend)
+    virtual void set_extend(enum extend extend)
     { _extend = extend; }
 
 public:
@@ -73,7 +73,7 @@ protected:
     virtual std::shared_ptr<void> pattern_() const = 0;
 
 protected:
-    Extend _extend;
+    enum extend _extend;
     std::vector<Stop> _stops;
 };
 

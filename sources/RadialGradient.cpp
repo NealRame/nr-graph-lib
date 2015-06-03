@@ -55,19 +55,19 @@ radial_gradient::radial_gradient(const void *ptr) {
 
     switch(::cairo_pattern_get_extend(pattern)) {
     case CAIRO_EXTEND_NONE:
-        set_extend(Extend::None);
+        set_extend(extend::None);
         break;
 
     case CAIRO_EXTEND_PAD:
-        set_extend(Extend::Pad);
+        set_extend(extend::Pad);
         break;
 
     case CAIRO_EXTEND_REFLECT:
-        set_extend(Extend::Reflect);
+        set_extend(extend::Reflect);
         break;
 
     case CAIRO_EXTEND_REPEAT:
-        set_extend(Extend::Repeat);
+        set_extend(extend::Repeat);
         break;
     }
 
@@ -90,16 +90,16 @@ std::shared_ptr<void> radial_gradient::pattern_() const {
     auto pattern = cairo_pattern_create_radial(c1.x(), c1.y(), r1, c2.x(), c2.y(), r2);
 
     switch (extend()) {
-    case Extend::None:
+    case extend::None:
         cairo_pattern_set_extend(pattern, CAIRO_EXTEND_NONE);
         break;
-    case Extend::Pad:
+    case extend::Pad:
         cairo_pattern_set_extend(pattern, CAIRO_EXTEND_PAD);
         break;
-    case Extend::Reflect:
+    case extend::Reflect:
         cairo_pattern_set_extend(pattern, CAIRO_EXTEND_REFLECT);
         break;
-    case Extend::Repeat:
+    case extend::Repeat:
         cairo_pattern_set_extend(pattern, CAIRO_EXTEND_REPEAT);
         break;
     }
