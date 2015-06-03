@@ -10,25 +10,25 @@
 namespace com {
 namespace nealrame {
 namespace graph {
-class Size {
+class size {
 public:
-    Size()
+    size()
         : _width(0)
         , _height(0) {
     }
-    Size(double width, double height)
+    size(double width, double height)
         : _width(width)
         , _height(height) {
     }
-    virtual ~Size() { }
+    virtual ~size() { }
 
     /// Returns a size holding the minimum width and height of this size and
     /// the given otherSize.
-    Size boundedTo(const Size & otherSize) const;
+    size bounded_to(const size & otherSize) const;
 
     /// Returns a size holding the maximum width and height of this size and
     /// the given otherSize.
-    Size expandedTo(const Size & otherSize) const;
+    size expanded_to(const size & otherSize) const;
 
     double & height()
     { return _height; }
@@ -42,17 +42,17 @@ public:
     const double & width() const
     { return _width; }
 
-    bool isValid() const;
+    bool is_valid() const;
 
 public:
-    virtual std::string toString() const;
+    virtual std::string to_string() const;
 
 private:
     double _width;
     double _height;
 };
 
-std::ostream & operator<<(std::ostream &, const Size &);
+std::ostream & operator<<(std::ostream &, const size &);
 
 } // namespace graph
 } // namespace nealrame

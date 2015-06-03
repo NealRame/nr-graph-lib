@@ -16,24 +16,24 @@ namespace com {
 namespace nealrame {
 namespace graph {
 
-Size Size::boundedTo(const Size & otherSize) const {
-    return Size(fmin(_width, otherSize._width), fmin(_height, otherSize._height));
+size size::bounded_to(const size & otherSize) const {
+    return size(fmin(_width, otherSize._width), fmin(_height, otherSize._height));
 }
 
-Size Size::expandedTo(const Size & otherSize) const {
-    return Size(fmax(_width, otherSize._width), fmax(_height, otherSize._height));
+size size::expanded_to(const size & otherSize) const {
+    return size(fmax(_width, otherSize._width), fmax(_height, otherSize._height));
 }
 
-bool Size::isValid() const {
+bool size::is_valid() const {
     return _width >=0 && _height >= 0;
 }
 
-std::string Size::toString() const {
+std::string size::to_string() const {
     return (boost::format("%1%x%2%") % _width % _height).str();
 }
 
-std::ostream & operator<<(std::ostream &out, const Size &size) {
-    return out << size.toString();
+std::ostream & operator<<(std::ostream &out, const size &size) {
+    return out << size.to_string();
 }
 
 } /* namespace graph */

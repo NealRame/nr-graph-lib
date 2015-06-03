@@ -25,11 +25,11 @@ public:
     };
 
 public:
-    Surface(Size, Backend backend);
+    Surface(size, Backend backend);
     virtual ~Surface();
 
 public:
-    Size size() const;
+    size size() const;
 
 public:
     void exportToPNG(const std::string &) const;

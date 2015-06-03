@@ -30,7 +30,7 @@ namespace {
 struct Surface::impl {
     std::unique_ptr<cairo_surface_t, ::surface_deleter> cairo_surface;
 
-    impl(Size size, Backend backend) {
+    impl(class size size, Backend backend) {
         switch (backend) {
             case Backend::Image:
                 cairo_surface.reset(
@@ -50,12 +50,12 @@ struct Surface::impl {
         }
     }
 
-    Size size() const {
+    class size size() const {
         auto surface_ptr = cairo_surface.get();
-        return Size(
+        return (class size){
             static_cast<double>(cairo_image_surface_get_width(surface_ptr)),
             static_cast<double>(cairo_image_surface_get_height(surface_ptr))
-        );
+        };
     }
 
     void exportToPNG(const std::string &path) const {
@@ -83,14 +83,14 @@ struct Surface::impl {
     }
 };
 
-Surface::Surface(Size size, Backend backend) 
+Surface::Surface(class size size, Backend backend) 
     : d(new impl(size, backend)) {
 }
 
 Surface::~Surface() {
 }
 
-Size Surface::size() const {
+size Surface::size() const {
     return d->size();
 
 }

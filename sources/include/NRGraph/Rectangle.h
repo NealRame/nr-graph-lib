@@ -5,19 +5,18 @@
 #pragma once
 
 #include <NRGraph/Point.h>
-#include <NRGraph/Size.h>
 
 #include <vector>
 
 namespace com {
 namespace nealrame {
 namespace graph {
-class Size;
+class size;
 class rectangle {
 public:
     rectangle();
     rectangle(const point &topLeft, const point &bottomRight);
-    rectangle(const point &topLeft, const Size &size);
+    rectangle(const point &topLeft, const size &size);
     virtual ~rectangle();
 
 public:
@@ -34,7 +33,7 @@ public:
 
     /**
      * Returns true if and only if this rectangle size is Valid.
-     * @See com::nealrame::graph::Size::isValid();
+     * @See com::nealrame::graph::size::isValid();
      */
     bool is_valid() const;
 
@@ -47,7 +46,7 @@ public:
     /**
      * Returns the size of this rectangle.
      */
-    Size size() const;
+    size size() const;
 
     /**
      * Returns the x-coordinate of the rectangle's right edge.

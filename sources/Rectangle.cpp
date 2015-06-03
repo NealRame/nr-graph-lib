@@ -6,6 +6,7 @@
  */
 
 #include <NRGraph/Rectangle.h>
+#include <NRGraph/Size.h>
 
 #include <iostream>
 #include <cmath>
@@ -20,7 +21,7 @@ rectangle::rectangle(const point &topLeft, const point &bottomRight)
     , _bottom_right(bottomRight) {
 }
 
-rectangle::rectangle(const point &topLeft, const Size &size)
+rectangle::rectangle(const point &topLeft, const class size &size)
     : _top_left(topLeft)
     , _bottom_right(_top_left.translated(size.width(), size.height())) {
 }
@@ -34,7 +35,7 @@ bool rectangle::contains(const point &point) const {
 }
 
 bool rectangle::is_valid() const {
-    return size().isValid();
+    return size().is_valid();
 }
 
 void rectangle::normalize() {
@@ -71,9 +72,11 @@ void rectangle::unit(const rectangle &other) {
     *this = rectangle(point(min_left, min_top), point(max_right, max_bottom));
 }
 
-Size rectangle::size() const {
-    return Size(_bottom_right.x() - _top_left.x(),
-            _bottom_right.y() - _top_left.y());
+size rectangle::size() const {
+    return (class size){
+        _bottom_right.x() - _top_left.x(),
+        _bottom_right.y() - _top_left.y()
+    };
 }
 
 point rectangle::top_right() const {
