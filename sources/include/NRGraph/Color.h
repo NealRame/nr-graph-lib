@@ -16,7 +16,7 @@ class color {
     friend class Painter;
 
 public:
-    enum Model {
+    enum model {
         Cmyk, Hsl, Hsv, Rgb, Invalid
     };
 
@@ -80,14 +80,14 @@ public:
     bool operator==(const color &other) const;
 
 public:
-    color conver_to(Model) const;
+    color conver_to(model) const;
 
 public:
     double alpha() const;
     void set_alpha(double);
 
-    Model model() const;
-    void set_model(Model);
+    enum model model() const;
+    void set_model(enum model);
 
     CMYK cmyk() const;
     void set_cmyk(const CMYK &);
@@ -114,7 +114,7 @@ private:
     std::shared_ptr<void> pattern_() const;
 
 private:
-    Model _model;
+    enum model _model;
     union {
         struct CMYK _cmyk;
         struct HSL  _hsl;

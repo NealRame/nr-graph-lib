@@ -397,7 +397,7 @@ bool color::operator==(const color &other) const {
     return false;
 }
 
-color color::conver_to(Model model) const {
+color color::conver_to(enum model model) const {
     switch (model) {
     case Cmyk:
         switch (_model) {
@@ -449,11 +449,11 @@ void color::set_alpha(double alpha) {
     _alpha = alpha;
 }
 
-color::Model color::model() const {
+enum color::model color::model() const {
     return _model;
 }
 
-void color::set_model(Model model) {
+void color::set_model(enum model model) {
     *this = conver_to(model);
 }
 
