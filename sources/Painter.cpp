@@ -80,7 +80,7 @@ struct painter::impl {
     void clear(const color &c) {
         save();
         set_brush(c);
-        fill_rectangle(Rectangle(point(0, 0), surface.size()));
+        fill_rectangle(rectangle(point(0, 0), surface.size()));
         restore();
     }
 
@@ -110,20 +110,20 @@ struct painter::impl {
         ::cairo_stroke(cr);
     }
 
-    void draw_rectangle(const Rectangle &rectangle) {
+    void draw_rectangle(const rectangle &rectangle) {
         auto cr = cairo_context.get();
-        if (rectangle.isValid()) {
-            const auto point = rectangle.topLeft();
+        if (rectangle.is_valid()) {
+            const auto point = rectangle.top_left();
             const auto size = rectangle.size();
             ::cairo_rectangle(cr, point.x(), point.y(), size.width(), size.height());
             ::cairo_stroke(cr);
         }
     }
 
-    void fill_rectangle(const Rectangle &rectangle) {
+    void fill_rectangle(const rectangle &rectangle) {
         auto cr = cairo_context.get();
-        if (rectangle.isValid()) {
-            const auto point = rectangle.topLeft();
+        if (rectangle.is_valid()) {
+            const auto point = rectangle.top_left();
             const auto size = rectangle.size();
             ::cairo_rectangle(cr, point.x(), point.y(), size.width(), size.height());
             ::cairo_fill(cr);
@@ -185,10 +185,10 @@ void painter::draw_line(const class line &line) {
     draw_line(line.p1(), line.p2());
 }
 
-void painter::draw_rectangle(const Rectangle &rectangle) {
+void painter::draw_rectangle(const rectangle &rectangle) {
     d->draw_rectangle(rectangle);
 }
 
-void painter::fill_rectangle(const Rectangle &rectangle) {
+void painter::fill_rectangle(const rectangle &rectangle) {
     d->fill_rectangle(rectangle);
 }
