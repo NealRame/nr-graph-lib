@@ -5,16 +5,16 @@
  *      Author: jux
  */
 
-#include <NRGraph/Painter.h>
-#include <NRGraph/Brush.h>
-#include <NRGraph/Error.h>
-#include <NRGraph/Line.h>
-#include <NRGraph/LinearGradient.h>
-#include <NRGraph/Pen.h>
-#include <NRGraph/Point.h>
-#include <NRGraph/RadialGradient.h>
-#include <NRGraph/Rectangle.h>
-#include <NRGraph/Size.h>
+#include <NRGraph/painter.h>
+#include <NRGraph/brush.h>
+#include <NRGraph/error.h>
+#include <NRGraph/line.h>
+#include <NRGraph/linear_gradient.h>
+#include <NRGraph/pen.h>
+#include <NRGraph/point.h>
+#include <NRGraph/radial_gradient.h>
+#include <NRGraph/rectangle.h>
+#include <NRGraph/size.h>
 #include <NRGraph/surface.h>
 
 extern "C" {

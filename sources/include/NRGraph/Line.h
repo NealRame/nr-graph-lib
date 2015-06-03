@@ -4,7 +4,7 @@
 /// -     Author: jux
 #pragma once
 
-#include <NRGraph/Point.h>
+#include <NRGraph/point.h>
 
 namespace com {
 namespace nealrame {

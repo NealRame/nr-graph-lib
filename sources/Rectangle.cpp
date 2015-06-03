@@ -5,8 +5,8 @@
  *      Author: jux
  */
 
-#include <NRGraph/Rectangle.h>
-#include <NRGraph/Size.h>
+#include <NRGraph/rectangle.h>
+#include <NRGraph/size.h>
 
 #include <iostream>
 #include <cmath>

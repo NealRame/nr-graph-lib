@@ -6,7 +6,7 @@
  */
 
 #include <NRGraph/gradient.h>
-#include <NRGraph/Error.h>
+#include <NRGraph/error.h>
 
 #include <algorithm>
 #include <sstream>

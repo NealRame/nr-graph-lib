@@ -5,8 +5,8 @@
  *      Author: jux
  */
 
-#include <NRGraph/Error.h>
-#include <NRGraph/Surface.h>
+#include <NRGraph/error.h>
+#include <NRGraph/surface.h>
 
  extern "C" {
 #   include <cairo.h>

@@ -13,9 +13,9 @@ extern "C" {
 
 #include <sstream>
 
-#include <NRGraph/Error.h>
-#include <NRGraph/LinearGradient.h>
-#include <NRGraph/RadialGradient.h>
+#include <NRGraph/error.h>
+#include <NRGraph/linear_gradient.h>
+#include <NRGraph/radial_gradient.h>
 
 namespace com {
 namespace nealrame {

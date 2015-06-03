@@ -4,7 +4,7 @@
 /// -     Author: jux
 #pragma once
 
-#include <NRGraph/Size.h>
+#include <NRGraph/size.h>
 
 #include <memory>
 #include <string>

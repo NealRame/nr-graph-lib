@@ -9,16 +9,14 @@
 #include <string>
 #include <vector>
 
-#include <NRGraph/Color.h>
+#include <NRGraph/color.h>
 
 namespace com {
 namespace nealrame {
 namespace graph {
 class brush;
-class Painter;
 class gradient {
     friend class brush;
-    friend class Painter;
 public:
     enum class type {
         Linear,

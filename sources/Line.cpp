@@ -5,7 +5,7 @@
  *      Author: jux
  */
 
-#include <NRGraph/Line.h>
+#include <NRGraph/line.h>
 
 namespace com {
 namespace nealrame {

@@ -4,8 +4,8 @@
  *  Created on: Jun 8, 2013
  *      Author: jux
  */
-#include <NRGraph/Color.h>
-#include <NRGraph/Error.h>
+#include <NRGraph/color.h>
+#include <NRGraph/error.h>
 
 extern "C" {
 #   include <cairo.h>

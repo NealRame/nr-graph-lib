@@ -6,7 +6,7 @@
 #pragma once
 
 #include <NRGraph/point.h>
-#include <NRGraph/Gradient.h>
+#include <NRGraph/gradient.h>
 
 #include <memory>
 
@@ -14,10 +14,8 @@ namespace com {
 namespace nealrame {
 namespace graph {
 class brush;
-class Painter;
 class linear_gradient : public gradient {
     friend class brush;
-    friend class Painter;
 
 public:
     linear_gradient();

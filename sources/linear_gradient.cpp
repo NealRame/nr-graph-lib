@@ -5,8 +5,8 @@
  *      Author: jux
  */
 
-#include <NRGraph/LinearGradient.h>
-#include <NRGraph/Color.h>
+#include <NRGraph/linear_gradient.h>
+#include <NRGraph/color.h>
 #include <NRGraph/point.h>
 
 extern "C" {

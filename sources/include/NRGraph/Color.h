@@ -13,7 +13,6 @@ namespace nealrame {
 namespace graph {
 class color {
     friend class brush;
-    friend class Painter;
 
 public:
     enum model {

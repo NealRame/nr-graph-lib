@@ -4,8 +4,8 @@
 /// -     Author: jux
 #pragma once
 
-#include <NRGraph/Color.h>
-#include <NRGraph/Gradient.h>
+#include <NRGraph/color.h>
+#include <NRGraph/gradient.h>
 
 #include <iostream>
 #include <memory>

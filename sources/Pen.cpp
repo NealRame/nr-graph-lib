@@ -5,7 +5,7 @@
  *      Author: jux
  */
 
-#include <NRGraph/Pen.h>
+#include <NRGraph/pen.h>
 
 using namespace com::nealrame::graph;
 

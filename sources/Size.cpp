@@ -5,7 +5,7 @@
  *      Author: jux
  */
 
-#include <NRGraph/Size.h>
+#include <NRGraph/size.h>
 
 #include <algorithm>
 #include <cmath>

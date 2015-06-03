@@ -4,8 +4,8 @@
 /// -     Author: jux
 #pragma once
 
-#include <NRGraph/Gradient.h>
-#include <NRGraph/Point.h>
+#include <NRGraph/gradient.h>
+#include <NRGraph/point.h>
 
 #include <memory>
 
@@ -13,11 +13,9 @@ namespace com {
 namespace nealrame {
 namespace graph {
 class brush;
-class Painter;
 class point;
 class radial_gradient : public gradient {
     friend class brush;
-    friend class Painter;
 
 public:
     radial_gradient(const point &center, double radius);

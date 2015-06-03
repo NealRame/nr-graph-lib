@@ -6,33 +6,33 @@ set(
 
 # Recuperation des fichiers sources et des headers du projet AMMusic
 set(HEADERS 
-  ${NR_GRAPH_INCLUDE_DIR}/Brush.h
-  ${NR_GRAPH_INCLUDE_DIR}/Color.h
-  ${NR_GRAPH_INCLUDE_DIR}/Error.h
-  ${NR_GRAPH_INCLUDE_DIR}/Gradient.h
-  ${NR_GRAPH_INCLUDE_DIR}/Line.h
-  ${NR_GRAPH_INCLUDE_DIR}/LinearGradient.h
-  ${NR_GRAPH_INCLUDE_DIR}/Painter.h
-  ${NR_GRAPH_INCLUDE_DIR}/Pen.h
-  ${NR_GRAPH_INCLUDE_DIR}/Point.h
-  ${NR_GRAPH_INCLUDE_DIR}/RadialGradient.h
-  ${NR_GRAPH_INCLUDE_DIR}/Rectangle.h
-  ${NR_GRAPH_INCLUDE_DIR}/Size.h
-  ${NR_GRAPH_INCLUDE_DIR}/Surface.h
+  ${NR_GRAPH_INCLUDE_DIR}/brush.h
+  ${NR_GRAPH_INCLUDE_DIR}/color.h
+  ${NR_GRAPH_INCLUDE_DIR}/error.h
+  ${NR_GRAPH_INCLUDE_DIR}/gradient.h
+  ${NR_GRAPH_INCLUDE_DIR}/line.h
+  ${NR_GRAPH_INCLUDE_DIR}/linear_gradient.h
+  ${NR_GRAPH_INCLUDE_DIR}/painter.h
+  ${NR_GRAPH_INCLUDE_DIR}/pen.h
+  ${NR_GRAPH_INCLUDE_DIR}/point.h
+  ${NR_GRAPH_INCLUDE_DIR}/radial_gradient.h
+  ${NR_GRAPH_INCLUDE_DIR}/rectangle.h
+  ${NR_GRAPH_INCLUDE_DIR}/size.h
+  ${NR_GRAPH_INCLUDE_DIR}/surface.h
 )
 set(SOURCES
-  Brush.cpp
-  Color.cpp
-  Error.cpp
-  Gradient.cpp
-  Line.cpp
-  LinearGradient.cpp
-  Painter.cpp
-  Pen.cpp
-  RadialGradient.cpp
-  Rectangle.cpp
-  Size.cpp
-  Surface.cpp
+  brush.cpp
+  color.cpp
+  error.cpp
+  gradient.cpp
+  line.cpp
+  linear_gradient.cpp
+  painter.cpp
+  pen.cpp
+  radial_gradient.cpp
+  rectangle.cpp
+  size.cpp
+  surface.cpp
 )
 
 # Definition des fichiers sources src/*.h|cpp include/core/*.h
