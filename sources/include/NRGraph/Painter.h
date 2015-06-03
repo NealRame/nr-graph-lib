@@ -19,7 +19,7 @@ class rectangle;
 class surface;
 class painter {
 public:
-    enum class Antialias {
+    enum class antialias {
         None,
         Gray,
         Subpixel,
@@ -35,7 +35,7 @@ public:
     { return const_cast<painter *>(this)->surface(); }
 
 public:
-    void set_antialiasing(Antialias);
+    void set_antialiasing(antialias);
 
 public:
     void clear(const color &);

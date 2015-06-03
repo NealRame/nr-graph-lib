@@ -52,18 +52,18 @@ struct painter::impl {
         }
     }
 
-    void set_antialiasing(Antialias antialias) {
+    void set_antialiasing(enum antialias antialias) {
         auto context = cairo_context.get();
         switch (antialias) {
-        case Antialias::None:
+        case antialias::None:
             cairo_set_antialias(context, CAIRO_ANTIALIAS_NONE);
             break;
 
-        case Antialias::Gray:
+        case antialias::Gray:
             cairo_set_antialias(context, CAIRO_ANTIALIAS_GRAY);
             break;
 
-        case Antialias::Subpixel:
+        case antialias::Subpixel:
             cairo_set_antialias(context, CAIRO_ANTIALIAS_SUBPIXEL);
             break;
         }
@@ -141,7 +141,7 @@ painter::~painter() {
 class surface & painter::surface()
 { return d->surface; }
 
-void painter::set_antialiasing(Antialias antialias) {
+void painter::set_antialiasing(antialias antialias) {
     d->set_antialiasing(antialias);
 }
 
