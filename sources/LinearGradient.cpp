@@ -66,7 +66,7 @@ linear_gradient::linear_gradient(const void *ptr) {
     for (auto i = 0; i < stop_count; ++i) {
         double offset, r, g, b, a;
         ::cairo_pattern_get_color_stop_rgba(pattern, i, &offset, &r, &g, &b, &a);
-        add_color_stop(Stop{offset, color(color::RGB{r, g, b}, a)});
+        add_color_stop(stop{offset, color(color::RGB{r, g, b}, a)});
     }
 }
 

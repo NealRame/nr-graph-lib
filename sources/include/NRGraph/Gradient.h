@@ -32,7 +32,7 @@ public:
         Reflect
     };
 
-    struct Stop {
+    struct stop {
         double offset;
         class color color;
     };
@@ -53,13 +53,13 @@ public:
 
 public:
     virtual void add_color_stop(double, const color &);
-    virtual void add_color_stop(const Stop &);
-    virtual void add_color_stops(const std::vector<Stop> &);
-    virtual void set_color_stops(const std::vector<Stop> &);
+    virtual void add_color_stop(const stop &);
+    virtual void add_color_stops(const std::vector<stop> &);
+    virtual void set_color_stops(const std::vector<stop> &);
 
-    virtual Stop color_stop(unsigned int index) const;
+    virtual stop color_stop(unsigned int index) const;
     virtual unsigned int color_stop_count() const  { return _stops.size(); }
-    virtual std::vector<Stop> color_stops() const { return _stops; }
+    virtual std::vector<stop> color_stops() const { return _stops; }
 
 public:
     virtual gradient & operator=(const gradient &);
@@ -74,7 +74,7 @@ protected:
 
 protected:
     enum extend _extend;
-    std::vector<Stop> _stops;
+    std::vector<stop> _stops;
 };
 
 std::ostream & operator<<(std::ostream &, const gradient &);
