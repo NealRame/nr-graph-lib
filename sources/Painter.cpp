@@ -23,10 +23,6 @@ extern "C" {
 
 #include <vector>
 
-#define CAIRO_SURFACE(NR_SURFACE) reinterpret_cast<cairo_surface_t *>((NR_SURFACE)._priv_data)
-#define CAIRO_CONTEXT(PTR) reinterpret_cast<cairo_t  *>(PTR)
-#define CAIRO_PATTERN(PTR) reinterpret_cast<cairo_pattern_t *>(PTR)
-
 using namespace com::nealrame::graph;
 
 namespace {
