@@ -27,7 +27,7 @@ namespace {
 
 }
 
-struct Surface::impl {
+struct surface::impl {
     std::unique_ptr<cairo_surface_t, ::surface_deleter> cairo_surface;
 
     impl(class size size, Backend backend) {
@@ -83,22 +83,22 @@ struct Surface::impl {
     }
 };
 
-Surface::Surface(class size size, Backend backend) 
+surface::surface(class size size, Backend backend) 
     : d(new impl(size, backend)) {
 }
 
-Surface::~Surface() {
+surface::~surface() {
 }
 
-size Surface::size() const {
+size surface::size() const {
     return d->size();
 
 }
 
-void Surface::exportToPNG(const std::string &path) const {
+void surface::export_to_PNG(const std::string &path) const {
     return d->exportToPNG(path);
 }
 
-void * Surface::priv_data_() {
+void * surface::priv_data_() {
     return d->cairo_surface.get();
 }

@@ -16,7 +16,7 @@ class color;
 class line;
 class pen;
 class rectangle;
-class Surface;
+class surface;
 class painter {
 public:
     enum class Antialias {
@@ -26,12 +26,12 @@ public:
     };
 
 public:
-    painter(Surface &);
+    painter(surface &);
     virtual ~painter();
 
 public:
-    Surface & surface();
-    const Surface & surface() const
+    class surface & surface();
+    const class surface & surface() const
     { return const_cast<painter *>(this)->surface(); }
 
 public:

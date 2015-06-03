@@ -15,7 +15,7 @@
 #include <NRGraph/RadialGradient.h>
 #include <NRGraph/Rectangle.h>
 #include <NRGraph/Size.h>
-#include <NRGraph/Surface.h>
+#include <NRGraph/surface.h>
 
 extern "C" {
 #   include <cairo.h>
@@ -38,10 +38,10 @@ namespace {
 }
 
 struct painter::impl {
-    Surface &surface;
+    class surface &surface;
     std::unique_ptr<cairo_t, ::context_deleter> cairo_context;
 
-    impl(Surface &surface)
+    impl(class surface &surface)
         : surface(surface) {
         cairo_context.reset(
             ::cairo_create(reinterpret_cast<cairo_surface_t *>(surface.priv_data_()))
@@ -131,14 +131,14 @@ struct painter::impl {
     }
 };
 
-painter::painter(Surface &surface)
+painter::painter(class surface &surface)
     : d(new impl(surface)) {
 }
 
 painter::~painter() {
 }
 
-Surface & painter::surface()
+class surface & painter::surface()
 { return d->surface; }
 
 void painter::set_antialiasing(Antialias antialias) {

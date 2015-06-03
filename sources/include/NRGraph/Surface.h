@@ -13,7 +13,7 @@ namespace com {
 namespace nealrame {
 namespace graph {
 class painter;
-class Surface {
+class surface {
     friend class painter;
     
 public:
@@ -25,14 +25,14 @@ public:
     };
 
 public:
-    Surface(size, Backend backend);
-    virtual ~Surface();
+    surface(size, Backend backend);
+    virtual ~surface();
 
 public:
     size size() const;
 
 public:
-    void exportToPNG(const std::string &) const;
+    void export_to_PNG(const std::string &) const;
 
 private:
     void * priv_data_();
