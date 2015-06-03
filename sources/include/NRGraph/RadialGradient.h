@@ -26,8 +26,8 @@ public:
     virtual ~radial_gradient();
 
 public:
-    virtual Type type() const override
-    { return gradient::Type::Radial; }
+    virtual enum type type() const override
+    { return gradient::type::Radial; }
 
 public:
     point start_circle_center_point() const

@@ -20,7 +20,7 @@ class gradient {
     friend class brush;
     friend class Painter;
 public:
-    enum class Type {
+    enum class type {
         Linear,
         Radial
     };
@@ -43,7 +43,7 @@ public:
     virtual ~gradient();
 
 public:
-    virtual Type type() const = 0;
+    virtual enum type type() const = 0;
     
     virtual Extend extend() const
     { return _extend; }

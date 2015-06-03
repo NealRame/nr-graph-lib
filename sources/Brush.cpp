@@ -174,10 +174,10 @@ const class gradient & brush::gradient() const {
 void brush::set_gradient(const class gradient& gradient) {
     type_ = type::Gradient;
     switch (gradient.type()) {
-    case gradient::Type::Linear:
+    case gradient::type::Linear:
         d->gradient.reset(new linear_gradient(reinterpret_cast<const linear_gradient &>(gradient)));
         break;
-    case gradient::Type::Radial:
+    case gradient::type::Radial:
         d->gradient.reset(new radial_gradient(reinterpret_cast<const radial_gradient &>(gradient)));
         break;
     }

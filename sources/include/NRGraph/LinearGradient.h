@@ -26,8 +26,8 @@ public:
     virtual ~linear_gradient();
 
 public:
-    virtual Type type() const override
-    { return Type::Linear; }
+    virtual enum type type() const override
+    { return type::Linear; }
 
 public:
     point start_point() const
